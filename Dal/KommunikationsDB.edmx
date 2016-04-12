@@ -1,0 +1,499 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BlogEntries">
+          <Key>
+            <PropertyRef Name="BId" />
+          </Key>
+          <Property Name="BId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="75" Nullable="false" />
+          <Property Name="Content" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="Sender" Type="int" Nullable="false" />
+          <Property Name="Date" Type="smalldatetime" Nullable="false" />
+          <Property Name="Section" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Feed_Section" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Category_Blog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+          <Property Name="BlogId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Feed_Section">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="File">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Path" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="BlogEntry" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Firstname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Lastname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Phonenumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="ResearchAdmin" Type="bit" Nullable="false" />
+          <Property Name="EducationAdmin" Type="bit" Nullable="false" />
+          <Property Name="Researcher" Type="bit" Nullable="false" />
+          <Property Name="Doctorand" Type="bit" Nullable="false" />
+          <Property Name="Lecturer" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_BlogEntries_To_Categories">
+          <End Role="BlogEntries" Type="Self.BlogEntries" Multiplicity="1" />
+          <End Role="Category_Blog" Type="Self.Category_Blog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BlogEntries">
+              <PropertyRef Name="BId" />
+            </Principal>
+            <Dependent Role="Category_Blog">
+              <PropertyRef Name="BlogId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BlogEntries_To_Feed_Section">
+          <End Role="Feed_Section" Type="Self.Feed_Section" Multiplicity="1" />
+          <End Role="BlogEntries" Type="Self.BlogEntries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Feed_Section">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BlogEntries">
+              <PropertyRef Name="Section" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Categories_To_BlogEntries">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
+          <End Role="Category_Blog" Type="Self.Category_Blog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Category_Blog">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Categories_To_Feed_Section">
+          <End Role="Feed_Section" Type="Self.Feed_Section" Multiplicity="1" />
+          <End Role="Categories" Type="Self.Categories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Feed_Section">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Categories">
+              <PropertyRef Name="Feed_Section" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_File_To_BlogEntries">
+          <End Role="BlogEntries" Type="Self.BlogEntries" Multiplicity="1" />
+          <End Role="File" Type="Self.File" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BlogEntries">
+              <PropertyRef Name="BId" />
+            </Principal>
+            <Dependent Role="File">
+              <PropertyRef Name="BlogEntry" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_To_BlogEntries">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="BlogEntries" Type="Self.BlogEntries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BlogEntries">
+              <PropertyRef Name="Sender" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BlogEntries" EntityType="Self.BlogEntries" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Category_Blog" EntityType="Self.Category_Blog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Feed_Section" EntityType="Self.Feed_Section" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="File" EntityType="Self.File" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BlogEntries_To_Categories" Association="Self.FK_BlogEntries_To_Categories">
+            <End Role="BlogEntries" EntitySet="BlogEntries" />
+            <End Role="Category_Blog" EntitySet="Category_Blog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BlogEntries_To_Feed_Section" Association="Self.FK_BlogEntries_To_Feed_Section">
+            <End Role="Feed_Section" EntitySet="Feed_Section" />
+            <End Role="BlogEntries" EntitySet="BlogEntries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Categories_To_BlogEntries" Association="Self.FK_Categories_To_BlogEntries">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Category_Blog" EntitySet="Category_Blog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Categories_To_Feed_Section" Association="Self.FK_Categories_To_Feed_Section">
+            <End Role="Feed_Section" EntitySet="Feed_Section" />
+            <End Role="Categories" EntitySet="Categories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_File_To_BlogEntries" Association="Self.FK_File_To_BlogEntries">
+            <End Role="BlogEntries" EntitySet="BlogEntries" />
+            <End Role="File" EntitySet="File" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_To_BlogEntries" Association="Self.FK_User_To_BlogEntries">
+            <End Role="User" EntitySet="User" />
+            <End Role="BlogEntries" EntitySet="BlogEntries" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BlogEntries">
+          <Key>
+            <PropertyRef Name="BId" />
+          </Key>
+          <Property Name="BId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="75" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Content" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Sender" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Section" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Category_Blog" Relationship="Self.FK_BlogEntries_To_Categories" FromRole="BlogEntries" ToRole="Category_Blog" />
+          <NavigationProperty Name="Feed_Section" Relationship="Self.FK_BlogEntries_To_Feed_Section" FromRole="BlogEntries" ToRole="Feed_Section" />
+          <NavigationProperty Name="File" Relationship="Self.FK_File_To_BlogEntries" FromRole="BlogEntries" ToRole="File" />
+          <NavigationProperty Name="User" Relationship="Self.FK_User_To_BlogEntries" FromRole="BlogEntries" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Feed_Section" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Category_Blog" Relationship="Self.FK_Categories_To_BlogEntries" FromRole="Categories" ToRole="Category_Blog" />
+          <NavigationProperty Name="Feed_Section1" Relationship="Self.FK_Categories_To_Feed_Section" FromRole="Categories" ToRole="Feed_Section" />
+        </EntityType>
+        <EntityType Name="Category_Blog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <Property Name="BlogId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BlogEntries" Relationship="Self.FK_BlogEntries_To_Categories" FromRole="Category_Blog" ToRole="BlogEntries" />
+          <NavigationProperty Name="Categories" Relationship="Self.FK_Categories_To_BlogEntries" FromRole="Category_Blog" ToRole="Categories" />
+        </EntityType>
+        <EntityType Name="Feed_Section">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="BlogEntries" Relationship="Self.FK_BlogEntries_To_Feed_Section" FromRole="Feed_Section" ToRole="BlogEntries" />
+          <NavigationProperty Name="Categories" Relationship="Self.FK_Categories_To_Feed_Section" FromRole="Feed_Section" ToRole="Categories" />
+        </EntityType>
+        <EntityType Name="File">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Path" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BlogEntry" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BlogEntries" Relationship="Self.FK_File_To_BlogEntries" FromRole="File" ToRole="BlogEntries" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phonenumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ResearchAdmin" Type="Boolean" Nullable="false" />
+          <Property Name="EducationAdmin" Type="Boolean" Nullable="false" />
+          <Property Name="Researcher" Type="Boolean" Nullable="false" />
+          <Property Name="Doctorand" Type="Boolean" Nullable="false" />
+          <Property Name="Lecturer" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="BlogEntries" Relationship="Self.FK_User_To_BlogEntries" FromRole="User" ToRole="BlogEntries" />
+        </EntityType>
+        <Association Name="FK_BlogEntries_To_Categories">
+          <End Role="BlogEntries" Type="Self.BlogEntries" Multiplicity="1" />
+          <End Role="Category_Blog" Type="Self.Category_Blog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BlogEntries">
+              <PropertyRef Name="BId" />
+            </Principal>
+            <Dependent Role="Category_Blog">
+              <PropertyRef Name="BlogId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BlogEntries_To_Feed_Section">
+          <End Role="Feed_Section" Type="Self.Feed_Section" Multiplicity="1" />
+          <End Role="BlogEntries" Type="Self.BlogEntries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Feed_Section">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BlogEntries">
+              <PropertyRef Name="Section" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_File_To_BlogEntries">
+          <End Role="BlogEntries" Type="Self.BlogEntries" Multiplicity="1" />
+          <End Role="File" Type="Self.File" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BlogEntries">
+              <PropertyRef Name="BId" />
+            </Principal>
+            <Dependent Role="File">
+              <PropertyRef Name="BlogEntry" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_To_BlogEntries">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="BlogEntries" Type="Self.BlogEntries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BlogEntries">
+              <PropertyRef Name="Sender" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Categories_To_BlogEntries">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
+          <End Role="Category_Blog" Type="Self.Category_Blog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Category_Blog">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Categories_To_Feed_Section">
+          <End Role="Feed_Section" Type="Self.Feed_Section" Multiplicity="1" />
+          <End Role="Categories" Type="Self.Categories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Feed_Section">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Categories">
+              <PropertyRef Name="Feed_Section" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" />
+          <EntitySet Name="BlogEntries" EntityType="Self.BlogEntries" />
+          <EntitySet Name="Categories" EntityType="Self.Categories" />
+          <EntitySet Name="Category_Blog" EntityType="Self.Category_Blog" />
+          <EntitySet Name="Feed_Section" EntityType="Self.Feed_Section" />
+          <EntitySet Name="File" EntityType="Self.File" />
+          <EntitySet Name="User" EntityType="Self.User" />
+          <AssociationSet Name="FK_BlogEntries_To_Categories" Association="Self.FK_BlogEntries_To_Categories">
+            <End Role="BlogEntries" EntitySet="BlogEntries" />
+            <End Role="Category_Blog" EntitySet="Category_Blog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BlogEntries_To_Feed_Section" Association="Self.FK_BlogEntries_To_Feed_Section">
+            <End Role="Feed_Section" EntitySet="Feed_Section" />
+            <End Role="BlogEntries" EntitySet="BlogEntries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_File_To_BlogEntries" Association="Self.FK_File_To_BlogEntries">
+            <End Role="BlogEntries" EntitySet="BlogEntries" />
+            <End Role="File" EntitySet="File" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_To_BlogEntries" Association="Self.FK_User_To_BlogEntries">
+            <End Role="User" EntitySet="User" />
+            <End Role="BlogEntries" EntitySet="BlogEntries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Categories_To_BlogEntries" Association="Self.FK_Categories_To_BlogEntries">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Category_Blog" EntitySet="Category_Blog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Categories_To_Feed_Section" Association="Self.FK_Categories_To_Feed_Section">
+            <End Role="Feed_Section" EntitySet="Feed_Section" />
+            <End Role="Categories" EntitySet="Categories" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="Model.AspNetUsers">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BlogEntries">
+            <EntityTypeMapping TypeName="Model.BlogEntries">
+              <MappingFragment StoreEntitySet="BlogEntries">
+                <ScalarProperty Name="BId" ColumnName="BId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Sender" ColumnName="Sender" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Section" ColumnName="Section" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="Model.Categories">
+              <MappingFragment StoreEntitySet="Categories">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Feed_Section" ColumnName="Feed_Section" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Category_Blog">
+            <EntityTypeMapping TypeName="Model.Category_Blog">
+              <MappingFragment StoreEntitySet="Category_Blog">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="BlogId" ColumnName="BlogId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Feed_Section">
+            <EntityTypeMapping TypeName="Model.Feed_Section">
+              <MappingFragment StoreEntitySet="Feed_Section">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="File">
+            <EntityTypeMapping TypeName="Model.File">
+              <MappingFragment StoreEntitySet="File">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Path" ColumnName="Path" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="BlogEntry" ColumnName="BlogEntry" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="Model.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+                <ScalarProperty Name="Phonenumber" ColumnName="Phonenumber" />
+                <ScalarProperty Name="ResearchAdmin" ColumnName="ResearchAdmin" />
+                <ScalarProperty Name="EducationAdmin" ColumnName="EducationAdmin" />
+                <ScalarProperty Name="Researcher" ColumnName="Researcher" />
+                <ScalarProperty Name="Doctorand" ColumnName="Doctorand" />
+                <ScalarProperty Name="Lecturer" ColumnName="Lecturer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
