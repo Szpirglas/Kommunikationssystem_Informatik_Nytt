@@ -8,5 +8,7 @@ namespace Dal
 {
     public class Category_BlogRepository : GenericRepository<Category_Blog>
     {
+
+
     }
 }
