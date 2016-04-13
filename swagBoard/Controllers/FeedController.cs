@@ -62,6 +62,7 @@ namespace Whiteboard.Controllers
         {
 
            
+
             blogEntryRepository.removeOneBlogEntry(bld);
 
 
