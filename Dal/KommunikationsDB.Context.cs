@@ -32,5 +32,6 @@ namespace Dal
         public virtual DbSet<Feed_Section> Feed_Section { get; set; }
         public virtual DbSet<File> File { get; set; }
         public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<Events> Events { get; set; }
     }
 }
