@@ -56,5 +56,23 @@ namespace Whiteboard.Controllers
                 return null;
             }
         }
+
+        
+        public void removeBlogEntry(int bld)
+        {
+
+           
+            blogEntryRepository.removeOneBlogEntry(bld);
+
+
+    
+
+
+
+
+        }
+       
+
+
     }
 }

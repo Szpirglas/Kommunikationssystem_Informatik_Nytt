@@ -29,6 +29,7 @@ namespace Whiteboard.Extensions
         {
             var blogEntryMapped = new BlogEntryModel
             {
+                BId=blogEntryModel.BId,
                 Title = blogEntryModel.Title,
                 Content = blogEntryModel.Content,
                 Date = blogEntryModel.Date,

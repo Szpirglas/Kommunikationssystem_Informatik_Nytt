@@ -45,5 +45,39 @@ namespace Dal
                 return 0;
             }
         }
+
+        public void removeOneBlogEntry(int bld)
+        {
+
+            try
+            {
+
+                using (var db = new Entities())
+                {
+
+                    BlogEntries BlogEntryToDelete = db.BlogEntries.Where(x => x.BId == bld).FirstOrDefault<BlogEntries>();
+
+                    
+                    db.Entry(BlogEntryToDelete).State = System.Data.Entity.EntityState.Deleted;
+
+                    db.SaveChanges();
+
+
+
+                }
+
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine(e);
+
+
+
+            }
+
+        }
+
+
     }
 }

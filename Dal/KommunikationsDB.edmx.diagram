@@ -11,7 +11,7 @@
         <EntityTypeShape EntityType="Model.Category_Blog" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.Feed_Section" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.File" Width="1.5" PointX="5.25" PointY="8.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.User" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.User" Width="1.5" PointX="1" PointY="0.75" IsExpanded="true" />
         <AssociationConnector Association="Model.FK_BlogEntries_To_Categories" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_BlogEntries_To_Feed_Section" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_File_To_BlogEntries" ManuallyRouted="false" />
