@@ -67,6 +67,9 @@
     </Compile>
     <Compile Include="Category_BlogRepository.cs" />
     <Compile Include="Class1.cs" />
+    <Compile Include="Events.cs">
+      <DependentUpon>KommunikationsDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Feed_Section.cs">
       <DependentUpon>KommunikationsDB.tt</DependentUpon>
     </Compile>
