@@ -16,10 +16,10 @@ namespace swagBoard.Controllers
 
             var userRepository = new UserRepository();
             var allUser = userRepository.getAllUsers();
-            foreach(var user in allUser)
-            {
-                x(user.);
-            }
+            //foreach(var user in allUser)
+            //{
+            //    x(user.);
+            //}
             return View();
         }
     }
