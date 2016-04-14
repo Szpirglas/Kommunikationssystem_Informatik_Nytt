@@ -149,6 +149,7 @@
     <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Controllers\FeedController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SearchUserController.cs" />
     <Compile Include="Extensions\ExtensionMethods.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -456,6 +457,7 @@
     <Content Include="Views\Account\RegisterUser.cshtml" />
     <Content Include="Views\Account\LoginUser.cshtml" />
     <Content Include="Views\Calendar\Index.cshtml" />
+    <Content Include="Views\SearchUser\SearchUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="obj\Debug\TempPE\" />

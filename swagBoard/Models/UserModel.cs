@@ -29,5 +29,6 @@ namespace Whiteboard.Models
         public bool Doctorand { get; set; }
         [Display(Name ="Föreläsare")]
         public bool Lecturer { get; set; }
+        public List<UserModel> userList { get; set; }
     }
 }
