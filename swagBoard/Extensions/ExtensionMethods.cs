@@ -49,12 +49,24 @@ namespace Whiteboard.Extensions
             };
             return categoryMapped;
         }
+        public static UserModel MapToUserModel(this User userModel)
+        {
 
-        
+            var x = new UserModel
+            {
+                Email = userModel.Email,
+                Password = userModel.Password,
+                Firstname = userModel.Firstname,
+                Lastname = userModel.Lastname,
+                PhoneNumber = userModel.Phonenumber,
+                ResearchAdmin = userModel.ResearchAdmin,
+                Researcher = userModel.Researcher,
+                Lecturer = userModel.Lecturer,
+                EducationAdmin = userModel.EducationAdmin,
+                Doctorand = userModel.Doctorand,
 
-
-
-
-
+            };
+            return x;
+        }
     }
 }
