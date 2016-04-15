@@ -79,21 +79,34 @@
         $(function () {
             var selectedCategories;
             $('#sendPost').click(function () {
-                
-               
-
-                    //send elsewhere
 
 
-                $data = $('#categoryMenu').val(); //Returnerar en Array av valda kategorier.
+
+                //send elsewhere
+
+
+                var data = $('#categoryMenu').val(); //Returnerar en Array av valda kategorier.
                 //$dataString = serialize($data);
-                var dataString = $('data').serialize();
+                var katt;
+                katt = "";
+             
+                
+                for (i = 0;i<data.length;i++){
+
+                    katt=katt + data[i]+' ';
+
+
+                };
+                
+
+
+                //var dataString = $(data).serializeArray();
 
                 var title = $('#title').val();
                 var content = $('#textAreaId').val();
                 var section = '@ViewBag.sectionId';
                 var sender = '1';///Hårdkodat. TODO: Ändra till cookie Id.
-                $.post("/api/WebAPI/sendPost?title=" + title + '&section=' + section + '&sender=' + sender + '&content=' + content + '&categoryIds=' + dataString,
+                $.post("/api/WebAPI/sendPost?title=" + title + '&section=' + section + '&sender=' + sender + '&content=' + content + '&categoryIds=' + katt,
                     function () {
                         window.location.reload(true);
                     });
