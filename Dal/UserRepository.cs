@@ -32,11 +32,14 @@ namespace Dal
             }
         }
 
-        public List<User> getAllUsers()
+        public IEnumerable<User> getAllUsers()
         {
             using (var db = new Entities())
             {
-                return db.User.ToList();
+                return db.User.OrderBy(y => y.Lastname).ToList();
+
+               // db.User.ToList();
+
             }
         }
     }
