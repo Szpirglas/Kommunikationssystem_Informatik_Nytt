@@ -11,6 +11,7 @@ namespace Whiteboard.Models
         public string Name { get; set; }
         public int Feed_Section { get; set; }
 
+
         public virtual Feed_SectionModel Feed_Section1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BlogEntryModel> BlogEntries { get; set; }
