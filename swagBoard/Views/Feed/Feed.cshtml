@@ -102,7 +102,7 @@
                 var content = $('#textAreaId').val();
                 var section = '@ViewBag.sectionId';
                 var sender = '1';///Hårdkodat. TODO: Ändra till cookie Id.
-                $.post("/api/WebAPI/sendPost?title=" + title + '&section=' + section + '&sender=' + sender + '&content=' + content + '&categoryIds=' + katt,
+                $.post("/api/WebAPI/sendPost?title=" + title + '&section=' + section  + '&content=' + content + '&categoryIds=' + katt,
                     function () {
                         window.location.reload(true);
                     });

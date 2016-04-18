@@ -16,11 +16,18 @@ namespace Whiteboard.API
         BlogEntryRepository blogRep;
         Category_BlogRepository cb_rep;
         FileRepository fileRep;
+        UserRepository userRep;
+
+       
+           
+
+
         public WebAPIController()
         {
             blogRep = new BlogEntryRepository();
             cb_rep = new Category_BlogRepository();
             fileRep = new FileRepository();
+            userRep = new UserRepository();
         }
 
 
@@ -28,15 +35,25 @@ namespace Whiteboard.API
 
 
         [System.Web.Mvc.HttpPost]
-        public void sendPost(string title, int section, int sender, string content, string categoryIds, HttpPostedFileBase file)
+        public void sendPost(string title, int section, string content, string categoryIds, HttpPostedFileBase file)
         {
+            
+
+
+
+            var sender=userRep.getYaUserFromYaMail(User.Identity.Name);
+
+            var user=User.Identity.Name;
+
+
+
             if (!string.IsNullOrWhiteSpace(content) || !string.IsNullOrWhiteSpace(title))
             {
                 var blogToPost = new BlogEntryModel
                 {
                     Title = title,
                     Section = section,
-                    Sender = sender,
+                    Sender = sender.Id,
                     Content = content,
                     Date = DateTime.Now
                 };

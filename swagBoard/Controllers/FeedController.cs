@@ -40,6 +40,9 @@ namespace Whiteboard.Controllers
                 var blogPosts = new BlogEntryModel();
                 var posts = blogEntryRepository.GetPosts(sectionId);
                 var categoryList = categoryRepository.GetCategories(sectionId);
+
+
+
                 ViewBag.sectionId = sectionId;
 
                 foreach (var item in posts)
