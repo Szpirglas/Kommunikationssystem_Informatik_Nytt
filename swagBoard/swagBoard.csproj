@@ -146,6 +146,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Controllers\FeedController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SearchUserController.cs" />
@@ -177,7 +178,12 @@
     <Content Include="bin\Antlr3.Runtime.pdb" />
     <Content Include="bin\Dal.dll" />
     <Content Include="bin\Dal.pdb" />
+    <Content Include="bin\DHTMLX.dll" />
+    <Content Include="bin\DHTMLX.pdb" />
+    <Content Include="bin\DHTMLX.xml" />
     <Content Include="bin\EntityFramework.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.xml" />
     <Content Include="bin\EntityFramework.xml" />
     <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
     <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml" />
@@ -219,6 +225,7 @@
     <Content Include="Content\bootstrap-multiselect.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="dhxscheduler.sample.mvc3.readme.txt" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -464,6 +471,7 @@
     <Content Include="Views\SearchUser\SearchUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Content\SavedFiles\" />
     <Folder Include="obj\Debug\TempPE\" />
     <Folder Include="Views\WebAPI\" />
   </ItemGroup>

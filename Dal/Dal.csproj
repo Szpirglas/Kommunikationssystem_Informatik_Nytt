@@ -75,6 +75,7 @@
     <Compile Include="File.cs">
       <DependentUpon>KommunikationsDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="FileRepository.cs" />
     <Compile Include="GenericRepository.cs" />
     <Compile Include="KommunikationsDB.Context.cs">
       <AutoGen>True</AutoGen>
