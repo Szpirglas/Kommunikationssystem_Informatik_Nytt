@@ -25,6 +25,25 @@ namespace Dal
             }
         }
 
+        public IEnumerable<BlogEntries> GetYaOwnPostsMan(int sectionID,int userId)
+        {
+            var blogEntries = new List<BlogEntries>();
+            try
+            {
+                using (var db = new Entities())
+                {
+                    return db.BlogEntries.Where(c => c.Section == sectionID && c.Sender== userId).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Något gick väldigt fel: " + e);
+                return null;
+            }
+        }
+
+
+
         public int AddBlogEntry(BlogEntries blogEntry)
         {
             try

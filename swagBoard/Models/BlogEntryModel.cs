@@ -19,10 +19,12 @@ namespace Whiteboard.Models
         public virtual ICollection<CategoryModel> Categories { get; set; }
         public List<BlogEntryModel> BlogList { get; set; }
         public List<CategoryModel> CategoryList { get; set; }
+        //public UserModel userMan { get; set; }
         public BlogEntryModel()
         {
             BlogList = new List<BlogEntryModel>();
             CategoryList = new List<CategoryModel>();
+            //userMan = new UserModel();
         }
     }
 }
