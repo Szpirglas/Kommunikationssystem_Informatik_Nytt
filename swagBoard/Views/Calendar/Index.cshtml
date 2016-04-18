@@ -9,13 +9,14 @@
     <style>
         body
         {
-            background-color:#eee;
+            background-color:#eee; 
         }
     </style>
 </head>
 <body>
     <div style="height:700px;width:900px;margin:0 auto">
         @Html.Raw(Model.Render())
-    </div>
+    </div> 
+    @Html.ActionLink("Invite users to meeting", "Index", "Meeting");
 </body>
 </html>

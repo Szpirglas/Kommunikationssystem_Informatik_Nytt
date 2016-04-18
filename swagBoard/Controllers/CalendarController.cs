@@ -26,6 +26,7 @@ namespace SimpleScheduler.Controllers
 
             return View(scheduler);
         }
+        
 
         public ContentResult Data()
         {
@@ -53,17 +54,17 @@ namespace SimpleScheduler.Controllers
                             break;
                         case DataActionTypes.Delete: // define here your Delete logic
 
-                            changedEvent = data.Events.SingleOrDefault(ev => ev.id == action.SourceId);
-                            data.Events.DeleteOnSubmit(changedEvent);
-                            break;
-                        default:// "update" // define here your Update logic
+                        changedEvent = data.Events.SingleOrDefault(ev => ev.id == action.SourceId);
+                        data.Events.DeleteOnSubmit(changedEvent);
+                        break;
+                    default:// "update" // define here your Update logic
                             var eventToUpdate = data.Events.SingleOrDefault(ev => ev.id == action.SourceId);
                             DHXEventsHelper.Update(eventToUpdate, changedEvent, new List<string>() { "id" });//update all properties, except for id
                             break;
                     }
                     data.SubmitChanges();
                     action.TargetId = changedEvent.id;
-                
+
             }
             catch (Exception a)
             {
