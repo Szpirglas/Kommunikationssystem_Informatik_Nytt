@@ -8,6 +8,10 @@ using Whiteboard.Models;
 using System.Web.Http;
 using Whiteboard.Extensions;
 using System.IO;
+using System.Net.Http;
+using System.Net;
+using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Whiteboard.API
 {
@@ -28,7 +32,8 @@ namespace Whiteboard.API
 
 
         [System.Web.Mvc.HttpPost]
-        public void sendPost(string title, int section, int sender, string content, string categoryIds, HttpPostedFileBase file)
+        [ValidateAntiForgeryToken]
+        public void sendPost(string title, int section, int sender, string content, string categoryIds)
         {
             if (!string.IsNullOrWhiteSpace(content) || !string.IsNullOrWhiteSpace(title))
             {
@@ -58,10 +63,6 @@ namespace Whiteboard.API
                     };
                     cb_rep.Add(blog_kat);
                 };
-                if (file != null)
-                {
-                    UploadFile(file, id);
-                }
 
             }
         }
@@ -82,32 +83,67 @@ namespace Whiteboard.API
 
         }
 
-        public void UploadFile(HttpPostedFileBase file, int blogId)
+        //[System.Web.Mvc.HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public void UploadFile(HttpPostedFileBase file)
+        //{
+
+        //    try
+        //    {
+        //        if (file != null)
+        //        {
+        //            var fileToAdd = Path.GetFileName(file.FileName);
+        //            var folderPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Content/SavedFiles");
+        //            var savePath = Path.Combine(folderPath, fileToAdd);
+        //            var type = file.ContentType;
+
+        //            //var fileModel = new FileModel
+        //            //{
+        //            //    BlogEntry = 1,
+        //            //    Path = savePath,
+        //            //    Type = type
+        //            //};
+        //            file.SaveAs(savePath);
+        //            //fileRep.Add(fileModel.MapToFileEntity());
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine("Nu jävlar gubbar. Nu gick det fel." + e);
+        //    }
+
+        //}
+
+        public async Task<HttpResponseMessage> PostFormData()
         {
+            // Check if the request contains multipart/form-data.
+            if (!Request.Content.IsMimeMultipartContent())
+            {
+                throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+            }
+
+            string root = HttpContext.Current.Server.MapPath("~/Content/SavedFiles");
+            var provider = new MultipartFormDataStreamProvider(root);
+
             try
             {
-                var user = User.Identity.Name;
+                // Read the form data.
+                await Request.Content.ReadAsMultipartAsync(provider);
 
-                var fileToAdd = Path.GetFileName(file.FileName);
-                var folderPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Content/SavedFiles");
-                var savePath = Path.Combine(folderPath, fileToAdd);
-
-                var fileModel = new FileModel
+                // This illustrates how to get the file names.
+                foreach (MultipartFileData file in provider.FileData)
                 {
-                    BlogEntry = blogId,
-                    Path = savePath,
-                    Type = file.ContentType
-                };
-                file.SaveAs(savePath);
-                fileRep.Add(fileModel.MapToFileEntity());
+                    Trace.WriteLine(file.Headers.ContentDisposition.FileName);
+                    Trace.WriteLine("Server file path: " + file.LocalFileName);
+                }
+                return Request.CreateResponse(HttpStatusCode.OK);
+                
             }
-            catch (Exception e)
+            catch (System.Exception e)
             {
-                Console.WriteLine("Nu jävlar gubbar. Nu gick det fel." + e);
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
             }
-
         }
-
 
 
 
