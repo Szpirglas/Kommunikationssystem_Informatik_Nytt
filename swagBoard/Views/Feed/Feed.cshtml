@@ -42,7 +42,7 @@
             <input type="text" class="titleArea" id="title" placeholder="Title:" /><!--TODO:max 75 tecken. <p>Error Message</p>--><br />
             <textarea class="postArea" id="textAreaId" placeholder="Share something about this section"></textarea><br />
             <span>
-                @*<button class="btn btn-info" id="sendPost">Add post</button>*@
+                <button class="btn btn-info" id="sendPost">Add post</button>
             </span>
 
             <select id="categoryMenu" multiple="multiple">
@@ -53,14 +53,22 @@
                 }
 
             </select>
-            @using (Html.BeginForm("sendPost", "/Api/WebAPI", FormMethod.Post,
-                                        new { enctype = "multipart/form-data" }))
-            {
-                <label for="file">Upload File:</label>
-                <input type="file" name="file" id="file" />
-                <input type="submit" value="Send Post" class="submit" id="sendPost" />
-            }
         </div>
+        <form name="form1" method="post" enctype="multipart/form-data" action="~/Api/WebAPI/PostFormData">
+            <div>
+                <label for="image1">Image File</label>
+                <input name="image1" type="file" />
+            </div>
+            <div>
+                <input type="submit" value="Submit" />
+            </div>
+        </form>
+        @*using (Html.BeginForm("UploadFile", "Api/WebAPI", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <label for="file">Upload File:</label>
+                <input type="file" name="file" id="file" />
+                <input type="submit" value="Send Post" class="submit" id="sendPost2" />
+        }*@
 
 
         foreach (var item in Model.BlogList)
@@ -83,6 +91,13 @@
 @section Scripts
     {
     <script type="text/javascript">
+
+
+
+
+
+
+
         $(function () {
             var selectedCategories;
             $('#sendPost').click(function () {
