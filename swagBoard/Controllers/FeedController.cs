@@ -13,7 +13,8 @@ namespace Whiteboard.Controllers
         CategoryRepository categoryRepository;
         BlogEntryRepository blogEntryRepository;
         UserRepository userRep;
-        
+
+
         public FeedController()
         {
             blogEntryRepository = new BlogEntryRepository();
@@ -45,12 +46,16 @@ namespace Whiteboard.Controllers
                 foreach (var item in posts)
                 {
                     blogPosts.BlogList.Add(item.MaptoBlogEntryModel());
+
+                    blogPosts.CategoriesPerBlog.Add(categoryRepository.GetCategoriesByBlogId(item.BId));
                 }
 
-                foreach(var item in categoryList)
+                foreach (var item in categoryList)
                 {
                     blogPosts.CategoryList.Add(item.MaptoCategoryModel());
                 }
+
+
 
                 return View(blogPosts);
             }
@@ -64,12 +69,12 @@ namespace Whiteboard.Controllers
         //[ActionName("getPersonalFeed")]
         public ActionResult getPersonalFeed(int sectionId)
         {
-            
+
 
             try
             {
 
-                var user=userRep.getYaUserFromYaMail(User.Identity.Name);
+                var user = userRep.getYaUserFromYaMail(User.Identity.Name);
 
                 var blogPosts = new BlogEntryModel();
                 var posts = blogEntryRepository.GetYaOwnPostsMan(sectionId, user.Id);
@@ -79,6 +84,8 @@ namespace Whiteboard.Controllers
                 foreach (var item in posts)
                 {
                     blogPosts.BlogList.Add(item.MaptoBlogEntryModel());
+
+                    blogPosts.CategoriesPerBlog.Add(categoryRepository.GetCategoriesByBlogId(item.BId));
                 }
 
                 foreach (var item in categoryList)
@@ -86,7 +93,7 @@ namespace Whiteboard.Controllers
                     blogPosts.CategoryList.Add(item.MaptoCategoryModel());
                 }
 
-                return View("Feed",blogPosts);
+                return View("Feed", blogPosts);
             }
             catch
             {
@@ -98,19 +105,19 @@ namespace Whiteboard.Controllers
         public void removeBlogEntry(int bld)
         {
 
-           
+
 
 
             blogEntryRepository.removeOneBlogEntry(bld);
 
 
-    
+
 
 
 
 
         }
-       
+
 
 
     }

@@ -42,7 +42,7 @@
             <input type="text" class="titleArea" id="title" placeholder="Title:" /><!--TODO:max 75 tecken. <p>Error Message</p>--><br />
             <textarea class="postArea" id="textAreaId" placeholder="Share something about this section"></textarea><br />
             <span>
-                <button class="btn btn-info" id="sendPost">Add post</button>
+                @*<button class="btn btn-info" id="sendPost">Add post</button>*@
             </span>
 
             <select id="categoryMenu" multiple="multiple">
@@ -54,35 +54,45 @@
 
             </select>
         </div>
-        <form name="form1" method="post" enctype="multipart/form-data" action="~/Api/WebAPI/PostFormData">
+        <form name="form1" method="post" enctype="multipart/form-data" action="~/Api/WebAPI/UploadFile">
             <div>
                 <label for="image1">Image File</label>
                 <input name="image1" type="file" />
             </div>
             <div>
-                <input type="submit" value="Submit" />
+                <input type="submit" value="Submit" id="sendPost" class="btn btn-info" />
             </div>
         </form>
         @*using (Html.BeginForm("UploadFile", "Api/WebAPI", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
-            <label for="file">Upload File:</label>
-                <input type="file" name="file" id="file" />
-                <input type="submit" value="Send Post" class="submit" id="sendPost2" />
-        }*@
+            {
+                <label for="file">Upload File:</label>
+                    <input type="file" name="file" id="file" />
+                    <input type="submit" value="Send Post" class="submit" id="sendPost2" />
+            }*@
 
 
-        foreach (var item in Model.BlogList)
-        {
-            <div class="entries">
+    foreach (var item in Model.BlogList)
+    {
+        <div class="entries">
 
-                <h2>@item.Title</h2>
-                <p>@item.Content</p>
-                <h6>Author: @item.Sender</h6> <!--placeholder ID-->
-                <h6>Date: @item.Date</h6>
-                <button name="subject" class="btn-info" onclick="removeBlogEntry1(@item.BId)" @*type="submit"*@ value="HTML">Remove</button>
+            <h2>@item.Title</h2>
+            <p>@item.Content</p>
+            <h6>Author: @item.Sender</h6> <!--placeholder ID-->
+            <h6>Date: @item.Date</h6>
+            <h6 id="categories"></h6>
+            @foreach(var i in @item.CategoriesPerBlog)
+            {
+                foreach(var item2 in i)
+            {
+                <h6>@item2</h6>
 
-            </div>
-        }
+            }
+
+            }
+            <button name="subject" class="btn-info" onclick="removeBlogEntry1(@item.BId)" @*type="submit"*@ value="HTML">Remove</button>
+
+        </div>
+    }
     }
 </div>
 
@@ -116,7 +126,7 @@
                 var title = $('#title').val();
                 var content = $('#textAreaId').val();
                 var section = '@ViewBag.sectionId';
-                var sender = '1';///Hårdkodat. TODO: Ändra till cookie Id.
+                var sender = '1';///Hårdkodat.
                 $.post("/api/WebAPI/sendPost?title=" + title + '&section=' + section + '&sender=' + sender + '&content=' + content + '&categoryIds=' + katt,
                     function () {
                         window.location.reload(true);
