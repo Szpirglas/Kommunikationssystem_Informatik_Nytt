@@ -32,7 +32,6 @@
 
 
     @{
-        //IN PROGRESS
 
         var section = 0;
         foreach (var item in Model.BlogList)
@@ -46,9 +45,11 @@
         {<h2>Social feed</h2>}
         else if (section == 4)
         {<h2>Personal feed</h2>}
-        else{//Do nothing}
+            else
+            {//Do nothing
+            }
 
-
+     
         <div class="row">
             <input type="text" class="titleArea" id="title" placeholder="Title:" /><!--TODO:max 75 tecken. <p>Error Message</p>--><br />
             <textarea class="postArea" id="textAreaId" placeholder="Share something about this section"></textarea><br />
