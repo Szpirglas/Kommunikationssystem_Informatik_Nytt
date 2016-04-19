@@ -9,8 +9,12 @@
             <li>
                 @Html.ActionLink("Hello " + User.Identity.Name + "!", "getPersonalFeed", "Feed", new RouteValueDictionary(new { sectionID = 4 }), null)
             </li>
-            <li>@Html.ActionLink("Register", "RegisterUser", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+            @if (User.IsInRole("EducationAdmin"))
+            {
 
+                <li>@Html.ActionLink("Register", "RegisterUser", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+
+            }
             <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
         </ul>
     }

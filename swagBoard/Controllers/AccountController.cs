@@ -24,6 +24,7 @@ namespace Whiteboard.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult RegisterUser(UserModel model)
         {
+            var addRoles = new RolesController();
             var userRep = new UserRepository();
             var user = new User();
             {
@@ -40,7 +41,8 @@ namespace Whiteboard.Controllers
 
             }
             userRep.addUser(user);
-            return View();
+            addRoles.addUserToRole(model);
+            return RedirectToAction("index", "Home");
         }
         public ActionResult LoginUser()
         {
@@ -51,15 +53,14 @@ namespace Whiteboard.Controllers
         [AllowAnonymous]
         public ActionResult LoginUser(UserModel model)
         {
-
-            
+            var addRoles = new RolesController();
             var userRepository = new UserRepository();
             var lowerEmail = model.Email.ToLower();
-
 
             if (userRepository.checkUserLogin(lowerEmail, model.Password))
             {
                 FormsAuthentication.SetAuthCookie(model.Email, false);
+                addRoles.addUserToRole(model);
 
                 return RedirectToAction("Index", "Home");
             }
