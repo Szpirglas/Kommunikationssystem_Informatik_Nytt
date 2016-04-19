@@ -24,5 +24,27 @@ namespace Dal
                 return null;
             }
         }
+
+        public List<string> GetCategoriesByBlogId(int blogId)
+        {
+            try
+            {
+                using (var db = new Entities())
+                {
+                    var categoryList = (from c in db.Categories
+                                        join cb in db.Category_Blog on c.Id equals cb.CategoryId
+                                        join b in db.BlogEntries on cb.BlogId equals b.BId
+                                        where b.BId == blogId
+                                        select c.Name).ToList();
+
+                    return categoryList;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Nånting gick fel: " + e);
+                return null;
+            }
+        }
     }
 }

@@ -22,11 +22,13 @@ namespace Whiteboard.API
         FileRepository fileRep;
         UserRepository userRep;
 
+        string root;
         public WebAPIController()
         {
             blogRep = new BlogEntryRepository();
             cb_rep = new Category_BlogRepository();
             fileRep = new FileRepository();
+            root = HttpContext.Current.Server.MapPath("~/Content/SavedFiles");
             userRep = new UserRepository();
         }
 
@@ -53,7 +55,7 @@ namespace Whiteboard.API
                     Date = DateTime.Now
                 };
 
-                int id = blogRep.AddBlogEntry(blogToPost.MapToBlogEntity());
+                var id = blogRep.AddBlogEntry(blogToPost.MapToBlogEntity());
 
                 var test = mjau(categoryIds);
 
@@ -70,6 +72,14 @@ namespace Whiteboard.API
                     };
                     cb_rep.Add(blog_kat);
                 };
+
+                var fileModel = new FileModel
+                {
+                    BlogEntry = id,
+                    Path = root,
+                    Type = null
+            };
+                fileRep.Add(fileModel.MapToFileEntity());
 
             }
         }
@@ -121,21 +131,19 @@ namespace Whiteboard.API
 
         //}
 
-        public async Task<HttpResponseMessage> PostFormData()
+        public void UploadFile()
         {
             // Check if the request contains multipart/form-data.
             if (!Request.Content.IsMimeMultipartContent())
             {
                 throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
             }
-
-            string root = HttpContext.Current.Server.MapPath("~/Content/SavedFiles");
             var provider = new MultipartFormDataStreamProvider(root);
 
             try
             {
                 // Read the form data.
-                await Request.Content.ReadAsMultipartAsync(provider);
+                Request.Content.ReadAsMultipartAsync(provider);
 
                 // This illustrates how to get the file names.
                 foreach (MultipartFileData file in provider.FileData)
@@ -143,12 +151,11 @@ namespace Whiteboard.API
                     Trace.WriteLine(file.Headers.ContentDisposition.FileName);
                     Trace.WriteLine("Server file path: " + file.LocalFileName);
                 }
-                return Request.CreateResponse(HttpStatusCode.OK);
                 
             }
             catch (System.Exception e)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+                Console.WriteLine(e);
             }
         }
 
