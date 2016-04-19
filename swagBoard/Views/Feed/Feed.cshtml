@@ -71,25 +71,22 @@
         }*@
 
 
-        foreach (var item in Model.BlogList)
+        for (int i =0; i < Model.BlogList.Count; i++)
         {
             <div class="entries">
 
-                <h2>@item.Title</h2>
-                <p>@item.Content</p>
-                <h6>Author: @item.Sender</h6> <!--placeholder ID-->
-                <h6>Date: @item.Date</h6>
-            <h6 id="categories"></h6>
-            @foreach(var i in @item.CategoriesPerBlog)
-            {
-                foreach(var item2 in i)
-            {
-                <h6>@item2</h6>
+                <h2>Title: @Model.BlogList[i].Title</h2>
+                <p> Message: @Model.BlogList[i].Content</p>
+                <h6>Author: @Model.BlogList[i].Sender</h6> <!--placeholder ID-->
+                <h6>Date: @Model.BlogList[i].Date</h6>
+                @foreach (var k in @Model.CategoriesPerBlog[i])
+                {
+                    <h6>#@k</h6>
+                }
 
-            }
+                
 
-            }
-                <button name="subject" class="btn-info" onclick="removeBlogEntry1(@item.BId)" @*type="submit"*@ value="HTML">Remove</button>
+                <button name="subject" class="btn-info" onclick="removeBlogEntry1(@Model.BlogList[i].BId)" @*type="submit"*@ value="HTML">Remove</button>
 
             </div>
         }
