@@ -29,8 +29,6 @@
 <div class="jumbotron">
 
 
-
-
     @{
 
         var section = 0;
@@ -45,20 +43,17 @@
         {<h2>Social feed</h2>}
         else if (section == 4)
         {<h2>Personal feed</h2>}
-            else
-            {//Do nothing
+        else{
+                //Do nothing
             }
 
      
         <div class="row">
             <input type="text" class="titleArea" id="title" placeholder="Title:" /><!--TODO:max 75 tecken. <p>Error Message</p>--><br />
             <textarea class="postArea" id="textAreaId" placeholder="Share something about this section"></textarea><br />
-            <span>
-                @*<button class="btn btn-info" id="sendPost">Add post</button>*@
-            </span>
+
 
             <select id="categoryMenu" multiple="multiple">
-                <!--Test bootstrap dropdown med checkboxar-->
                 @foreach (var item in Model.CategoryList)
                 {
                     <option value=@item.Id>@item.Name</option>
@@ -68,20 +63,13 @@
         </div>
                 <form name="form1" method="post" enctype="multipart/form-data" action="~/Api/WebAPI/UploadFile">
                     <div>
-                        <label for="image1">Image File</label>
+                        <label for="image1">File</label>
                         <input name="image1" type="file" />
                     </div>
                     <div>
                         <input type="submit" value="Submit" id="sendPost" class="btn btn-info" />
                     </div>
                 </form>
-                @*using (Html.BeginForm("UploadFile", "Api/WebAPI", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                    {
-                        <label for="file">Upload File:</label>
-                            <input type="file" name="file" id="file" />
-                            <input type="submit" value="Send Post" class="submit" id="sendPost2" />
-                    }*@
-
 
     foreach (var item in Model.BlogList)
     {
@@ -96,11 +84,10 @@
                 foreach (var item2 in i)
                 {
                     <h6>@item2</h6>
-
                 }
 
             }
-            <button name="subject" class="btn-info" onclick="removeBlogEntry1(@item.BId)" @*type="submit"*@ value="HTML">Remove</button>
+            <button name="subject" class="btn btn-info" onclick="removeBlogEntry1(@item.BId)" @*type="submit"*@ value="HTML">Remove</button>
 
         </div>
     }
@@ -118,9 +105,7 @@
         $(function () {
             var selectedCategories;
             $('#sendPost').click(function () {
-                //send elsewhere
-                var data = $('#categoryMenu').val(); //Returnerar en Array av valda kategorier.
-                //$dataString = serialize($data);
+                var data = $('#categoryMenu').val(); 
                 var katt;
                 katt = "";
 
@@ -128,12 +113,10 @@
 
                     katt = katt + data[i] + ' ';
                 };
-                //var dataString = $(data).serializeArray();
 
                 var title = $('#title').val();
                 var content = $('#textAreaId').val();
                 var section = '@ViewBag.sectionId';
-                var sender = '1';///Hårdkodat. TODO: Ändra till cookie Id.
                 $.post("/api/WebAPI/sendPost?title=" + title + '&section=' + section + '&content=' + content + '&categoryIds=' + katt,
                     function () {
                         window.location.reload(true);
@@ -141,7 +124,6 @@
             });
         });
     </script>
-    <!--Test för dropdown med checkboxar-->
     <script type="text/javascript">
         $(document).ready(function () {
             $('#categoryMenu').multiselect();
