@@ -64,21 +64,21 @@
             </div>
         </form>
         @*using (Html.BeginForm("UploadFile", "Api/WebAPI", FormMethod.Post, new { enctype = "multipart/form-data" }))
-            {
-                <label for="file">Upload File:</label>
-                    <input type="file" name="file" id="file" />
-                    <input type="submit" value="Send Post" class="submit" id="sendPost2" />
-            }*@
+        {
+            <label for="file">Upload File:</label>
+                <input type="file" name="file" id="file" />
+                <input type="submit" value="Send Post" class="submit" id="sendPost2" />
+        }*@
 
 
-    foreach (var item in Model.BlogList)
-    {
-        <div class="entries">
+        foreach (var item in Model.BlogList)
+        {
+            <div class="entries">
 
-            <h2>@item.Title</h2>
-            <p>@item.Content</p>
-            <h6>Author: @item.Sender</h6> <!--placeholder ID-->
-            <h6>Date: @item.Date</h6>
+                <h2>@item.Title</h2>
+                <p>@item.Content</p>
+                <h6>Author: @item.Sender</h6> <!--placeholder ID-->
+                <h6>Date: @item.Date</h6>
             <h6 id="categories"></h6>
             @foreach(var i in @item.CategoriesPerBlog)
             {
@@ -89,10 +89,10 @@
             }
 
             }
-            <button name="subject" class="btn-info" onclick="removeBlogEntry1(@item.BId)" @*type="submit"*@ value="HTML">Remove</button>
+                <button name="subject" class="btn-info" onclick="removeBlogEntry1(@item.BId)" @*type="submit"*@ value="HTML">Remove</button>
 
-        </div>
-    }
+            </div>
+        }
     }
 </div>
 
@@ -126,8 +126,8 @@
                 var title = $('#title').val();
                 var content = $('#textAreaId').val();
                 var section = '@ViewBag.sectionId';
-                var sender = '1';///Hårdkodat.
-                $.post("/api/WebAPI/sendPost?title=" + title + '&section=' + section + '&sender=' + sender + '&content=' + content + '&categoryIds=' + katt,
+                var sender = '1';///Hårdkodat. TODO: Ändra till cookie Id.
+                $.post("/api/WebAPI/sendPost?title=" + title + '&section=' + section  + '&content=' + content + '&categoryIds=' + katt,
                     function () {
                         window.location.reload(true);
                     });

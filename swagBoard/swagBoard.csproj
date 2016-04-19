@@ -150,6 +150,7 @@
     <Compile Include="Controllers\FeedController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MeetingController.cs" />
+    <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\SearchUserController.cs" />
     <Compile Include="Extensions\ExtensionMethods.cs" />
     <Compile Include="Global.asax.cs">
@@ -473,6 +474,7 @@
   <ItemGroup>
     <Folder Include="Content\SavedFiles\" />
     <Folder Include="obj\Debug\TempPE\" />
+    <Folder Include="Views\Roles\" />
     <Folder Include="Views\WebAPI\" />
   </ItemGroup>
   <ItemGroup>

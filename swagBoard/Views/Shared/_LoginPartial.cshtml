@@ -3,16 +3,20 @@
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
 
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink("Hello " + User.Identity.Name + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-        </li>
-        <li>@Html.ActionLink("Register", "RegisterUser", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                @Html.ActionLink("Hello " + User.Identity.Name + "!", "getPersonalFeed", "Feed", new RouteValueDictionary(new { sectionID = 4 }), null)
+            </li>
+            @if (User.IsInRole("EducationAdmin"))
+            {
 
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-    </ul>
+                <li>@Html.ActionLink("Register", "RegisterUser", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+
+            }
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+        </ul>
     }
 }
 else
