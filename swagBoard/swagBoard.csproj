@@ -159,6 +159,7 @@
     <Compile Include="Models\CategoryModel.cs" />
     <Compile Include="Models\Feed_SectionModel.cs" />
     <Compile Include="Models\FileModel.cs" />
+    <Compile Include="Models\MeetingModel.cs" />
     <Compile Include="Models\Sample.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

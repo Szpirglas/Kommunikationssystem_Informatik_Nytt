@@ -25,6 +25,18 @@ namespace Whiteboard.Extensions
             return blogEntry;
         }
 
+        public static Meeting MapToMeeting(this MeetingModel meeting)
+        {
+            var meetingS = new Meeting
+            {
+                Sender = meeting.Sender,
+                Reciever = meeting.Reciever,
+                Confirmed = meeting.Confirmed,
+                text = meeting.Text
+            };
+            return meetingS;
+        }
+
         public static BlogEntryModel MaptoBlogEntryModel(this BlogEntries blogEntryModel)
         {
             var blogEntryMapped = new BlogEntryModel

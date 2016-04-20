@@ -13,9 +13,11 @@ namespace Whiteboard.API
     {
         BlogEntryRepository blogRep;
         Category_BlogRepository cb_rep;
+        MeetingRepository meetRep;
         public WebAPIController()
         {
             blogRep = new BlogEntryRepository();
+            meetRep = new MeetingRepository();
            cb_rep=new Category_BlogRepository();
         }
 
@@ -79,8 +81,45 @@ namespace Whiteboard.API
         }
 
 
+        [System.Web.Mvc.HttpPost]
+        public void sendMeeting(int sender, string receiver, string text, bool confirmed)
+        {
+            if (!string.IsNullOrWhiteSpace(text))
+            {
+                var invite = new MeetingModel
+                {
+                    Sender = sender,
+                    Confirmed = false,
+                    Text = text
+                    
+                };
+                var meetingRepository = new MeetingRepository();
+                meetingRepository.sendMeeting(invite.MapToMeeting());
+                //int id = meetRep.sendMeeting(invite.MapToMeeting());
+                //var test = mjau(receiver);
 
+                //int k;
+                //k = test.Length;
+
+                //for (int s = 0; s < test.Length; s++)
+                //{
+
+                //    var blog_kat = new Category_Blog
+                //    {
+                //        CategoryId = test[s],
+                //        BlogId = id
+                //    };
+
+
+
+
+                    //cb_rep.Add(blog_kat);
+
+
+                };
+
+            }
+        }
 
 
     }
-}

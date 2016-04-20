@@ -19,6 +19,9 @@
         <AssociationConnector Association="Model.FK_Categories_To_BlogEntries" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_Categories_To_Feed_Section" ManuallyRouted="false" />
         <EntityTypeShape EntityType="Model.Events" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="Model.Meeting" Width="1.5" PointX="3.25" PointY="12.5" />
+        <AssociationConnector Association="Model.FK_Meeting_To_User" />
+        <AssociationConnector Association="Model.FK_Meeting_To_Users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

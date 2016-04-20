@@ -74,6 +74,16 @@
           <Property Name="Type" Type="nvarchar" MaxLength="50" />
           <Property Name="BlogEntry" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Meeting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Reciever" Type="int" />
+          <Property Name="Confirmed" Type="bit" />
+          <Property Name="Sender" Type="int" />
+          <Property Name="text" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="Id" />
@@ -150,6 +160,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Meeting_To_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Meeting" Type="Self.Meeting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Meeting">
+              <PropertyRef Name="Reciever" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Meeting_To_Users">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Meeting" Type="Self.Meeting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Meeting">
+              <PropertyRef Name="Sender" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_User_To_BlogEntries">
           <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="BlogEntries" Type="Self.BlogEntries" Multiplicity="*" />
@@ -170,6 +204,7 @@
           <EntitySet Name="Events" EntityType="Self.Events" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Feed_Section" EntityType="Self.Feed_Section" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="File" EntityType="Self.File" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Meeting" EntityType="Self.Meeting" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_BlogEntries_To_Categories" Association="Self.FK_BlogEntries_To_Categories">
             <End Role="BlogEntries" EntitySet="BlogEntries" />
@@ -190,6 +225,14 @@
           <AssociationSet Name="FK_File_To_BlogEntries" Association="Self.FK_File_To_BlogEntries">
             <End Role="BlogEntries" EntitySet="BlogEntries" />
             <End Role="File" EntitySet="File" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Meeting_To_User" Association="Self.FK_Meeting_To_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Meeting" EntitySet="Meeting" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Meeting_To_Users" Association="Self.FK_Meeting_To_Users">
+            <End Role="User" EntitySet="User" />
+            <End Role="Meeting" EntitySet="Meeting" />
           </AssociationSet>
           <AssociationSet Name="FK_User_To_BlogEntries" Association="Self.FK_User_To_BlogEntries">
             <End Role="User" EntitySet="User" />
@@ -287,6 +330,8 @@
           <Property Name="Doctorand" Type="Boolean" Nullable="false" />
           <Property Name="Lecturer" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="BlogEntries" Relationship="Self.FK_User_To_BlogEntries" FromRole="User" ToRole="BlogEntries" />
+          <NavigationProperty Name="Meeting" Relationship="Model.FK_Meeting_To_User" FromRole="User" ToRole="Meeting" />
+          <NavigationProperty Name="Meeting1" Relationship="Model.FK_Meeting_To_Users" FromRole="User" ToRole="Meeting" />
         </EntityType>
         <Association Name="FK_BlogEntries_To_Categories">
           <End Role="BlogEntries" Type="Self.BlogEntries" Multiplicity="1" />
@@ -393,6 +438,15 @@
             <End Role="Categories" EntitySet="Categories" />
           </AssociationSet>
           <EntitySet Name="Events" EntityType="Model.Events" />
+          <EntitySet Name="Meeting" EntityType="Model.Meeting" />
+          <AssociationSet Name="FK_Meeting_To_User" Association="Model.FK_Meeting_To_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Meeting" EntitySet="Meeting" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Meeting_To_Users" Association="Model.FK_Meeting_To_Users">
+            <End Role="User" EntitySet="User" />
+            <End Role="Meeting" EntitySet="Meeting" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Events">
           <Key>
@@ -403,6 +457,42 @@
           <Property Name="start_date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="end_date" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
+        <EntityType Name="Meeting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Reciever" Type="Int32" />
+          <Property Name="Confirmed" Type="Boolean" />
+          <Property Name="Sender" Type="Int32" />
+          <NavigationProperty Name="User" Relationship="Model.FK_Meeting_To_User" FromRole="Meeting" ToRole="User" />
+          <NavigationProperty Name="User1" Relationship="Model.FK_Meeting_To_Users" FromRole="Meeting" ToRole="User" />
+          <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Meeting_To_User">
+          <End Type="Model.User" Role="User" Multiplicity="0..1" />
+          <End Type="Model.Meeting" Role="Meeting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Meeting">
+              <PropertyRef Name="Reciever" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Meeting_To_Users">
+          <End Type="Model.User" Role="User" Multiplicity="0..1" />
+          <End Type="Model.Meeting" Role="Meeting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Meeting">
+              <PropertyRef Name="Sender" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -499,6 +589,17 @@
                 <ScalarProperty Name="start_date" ColumnName="start_date" />
                 <ScalarProperty Name="text" ColumnName="text" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Meeting">
+            <EntityTypeMapping TypeName="Model.Meeting">
+              <MappingFragment StoreEntitySet="Meeting">
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="Sender" ColumnName="Sender" />
+                <ScalarProperty Name="Confirmed" ColumnName="Confirmed" />
+                <ScalarProperty Name="Reciever" ColumnName="Reciever" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
