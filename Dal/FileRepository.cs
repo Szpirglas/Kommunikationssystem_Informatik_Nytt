@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dal
 {
-    public class Class1
+    public class FileRepository : GenericRepository<File>
     {
     }
 }

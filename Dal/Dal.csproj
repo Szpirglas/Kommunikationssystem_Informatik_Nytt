@@ -66,7 +66,6 @@
       <DependentUpon>KommunikationsDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Category_BlogRepository.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="Events.cs">
       <DependentUpon>KommunikationsDB.tt</DependentUpon>
     </Compile>
@@ -76,6 +75,7 @@
     <Compile Include="File.cs">
       <DependentUpon>KommunikationsDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="FileRepository.cs" />
     <Compile Include="GenericRepository.cs" />
     <Compile Include="KommunikationsDB.Context.cs">
       <AutoGen>True</AutoGen>

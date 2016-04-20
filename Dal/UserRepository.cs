@@ -42,6 +42,27 @@ namespace Dal
 
             }
         }
+
+
+        public User getYaUserFromYaMail(string mail)
+        {
+            try
+            {
+                using (var db = new Entities())
+                {
+                    return db.User.FirstOrDefault(x => x.Email == mail);
+                }
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine(e);
+                return null;
+
+
+            }
+        }
+
     }
 
 }

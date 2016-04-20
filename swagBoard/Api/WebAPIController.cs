@@ -7,17 +7,26 @@ using Dal;
 using Whiteboard.Models;
 using System.Web.Http;
 using Whiteboard.Extensions;
+using System.IO;
+using System.Net.Http;
+using System.Net;
+using System.Threading.Tasks;
+using System.Diagnostics;
+
 namespace Whiteboard.API
 {
     public class WebAPIController : ApiController
     {
         BlogEntryRepository blogRep;
         Category_BlogRepository cb_rep;
+        FileRepository fileRep;
+        UserRepository userRep;
+
+        string root;
         MeetingRepository meetRep;
         public WebAPIController()
         {
             blogRep = new BlogEntryRepository();
-            meetRep = new MeetingRepository();
            cb_rep=new Category_BlogRepository();
         }
 
@@ -26,40 +35,49 @@ namespace Whiteboard.API
 
 
         [System.Web.Mvc.HttpPost]
-        public void sendPost(string title, int section, int sender, string content, string categoryIds)
+        [ValidateAntiForgeryToken]
+        public void sendPost(string title, int section, string content, string categoryIds)
         {
+
+            var sender=userRep.getYaUserFromYaMail(User.Identity.Name);
+
+             
             if (!string.IsNullOrWhiteSpace(content) || !string.IsNullOrWhiteSpace(title))
             {
                 var blogToPost = new BlogEntryModel
                 {
                     Title = title,
                     Section = section,
-                    Sender = sender,
+                    Sender = sender.Id,
                     Content = content,
                     Date = DateTime.Now
                 };
                 
-                int id=blogRep.AddBlogEntry(blogToPost.MapToBlogEntity());
+                var id = blogRep.AddBlogEntry(blogToPost.MapToBlogEntity());
 
-                var test=mjau(categoryIds);
+                var test = mjau(categoryIds);
 
                 //int k;
                 //k = test.Length;
 
-                for (int s = 0; s < test.Length; s++) {
+                for (int s = 0; s < test.Length; s++)
+                {
 
-                    var blog_kat = new Category_Blog {
+                    var blog_kat = new Category_Blog
+                    {
                         CategoryId = test[s],
                     BlogId = id
                 };
-
-
-
-
                     cb_rep.Add(blog_kat);
+                };
 
-
+                var fileModel = new FileModel
+                {
+                    BlogEntry = id,
+                    Path = root,
+                    Type = null
                         };
+                fileRep.Add(fileModel.MapToFileEntity());
 
             }
         }
@@ -80,6 +98,64 @@ namespace Whiteboard.API
 
         }
 
+        //[System.Web.Mvc.HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public void UploadFile(HttpPostedFileBase file)
+        //{
+
+        //    try
+        //    {
+        //        if (file != null)
+        //        {
+        //            var fileToAdd = Path.GetFileName(file.FileName);
+        //            var folderPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Content/SavedFiles");
+        //            var savePath = Path.Combine(folderPath, fileToAdd);
+        //            var type = file.ContentType;
+
+        //            //var fileModel = new FileModel
+        //            //{
+        //            //    BlogEntry = 1,
+        //            //    Path = savePath,
+        //            //    Type = type
+        //            //};
+        //            file.SaveAs(savePath);
+        //            //fileRep.Add(fileModel.MapToFileEntity());
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine("Nu jävlar gubbar. Nu gick det fel." + e);
+        //    }
+
+        //}
+
+        public void UploadFile()
+        {
+            // Check if the request contains multipart/form-data.
+            if (!Request.Content.IsMimeMultipartContent())
+            {
+                throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+            }
+            var provider = new MultipartFormDataStreamProvider(root);
+
+            try
+            {
+                // Read the form data.
+                Request.Content.ReadAsMultipartAsync(provider);
+
+                // This illustrates how to get the file names.
+                foreach (MultipartFileData file in provider.FileData)
+                {
+                    Trace.WriteLine(file.Headers.ContentDisposition.FileName);
+                    Trace.WriteLine("Server file path: " + file.LocalFileName);
+        }
+
+            }
+            catch (System.Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
 
         [System.Web.Mvc.HttpPost]
         public void sendMeeting(int sender, string receiver, string text, bool confirmed)
@@ -91,7 +167,7 @@ namespace Whiteboard.API
                     Sender = sender,
                     Confirmed = false,
                     Text = text
-                    
+
                 };
                 var meetingRepository = new MeetingRepository();
                 meetingRepository.sendMeeting(invite.MapToMeeting());
@@ -119,7 +195,7 @@ namespace Whiteboard.API
                 };
 
             }
-        }
-
-
     }
+
+
+}

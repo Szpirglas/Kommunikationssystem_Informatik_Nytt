@@ -8,7 +8,7 @@
 
 
 <script>
-   
+
     function removeBlogEntry1(bld1) {
 
 
@@ -27,26 +27,33 @@
 </script>
 
 <div class="jumbotron">
-   
-    
-    
-    
-     @{
 
 
+    @{
+
+        var section = 0;
+        foreach (var item in Model.BlogList)
+        {section = item.Section;}
+
+        if (section == 1)
+        {<h2>Education feed</h2>}
+        else if (section == 2)
+        {<h2>Research feed</h2>}
+        else if (section == 3)
+        {<h2>Social feed</h2>}
+        else if (section == 4)
+        {<h2>Personal feed</h2>}
+        else{
+                //Do nothing
+            }
 
 
-        //TODO: change Id to section name
-        <h2></h2>
         <div class="row">
-            <input type="text" class="titleArea" id="title" placeholder="Title:"/><!--TODO:max 75 tecken. <p>Error Message</p>--><br />
-            <textarea class="postArea" id="textAreaId" placeholder="Share something about this section"></textarea><br/>
-            <span>
-                <button class="btn btn-info" id="sendPost">Add post</button>
-            </span>
+            <input type="text" class="titleArea" id="title" placeholder="Title:" /><!--TODO:max 75 tecken. <p>Error Message</p>--><br />
+            <textarea class="postArea" id="textAreaId" placeholder="Share something about this section"></textarea><br />
+
 
             <select id="categoryMenu" multiple="multiple">
-                <!--Test bootstrap dropdown med checkboxar-->
                 @foreach (var item in Model.CategoryList)
                 {
                     <option value=@item.Id>@item.Name</option>
@@ -54,18 +61,33 @@
 
             </select>
         </div>
+        <form name="form1" method="post" enctype="multipart/form-data" action="~/Api/WebAPI/UploadFile">
+            <div>
+                        <label for="image1">File</label>
+                <input name="image1" type="file" />
+            </div>
+            <div>
+                <input type="submit" value="Submit" id="sendPost" class="btn btn-info" />
+            </div>
+        </form>
 
-
-        foreach (var item in Model.BlogList)
+        for (int i =0; i < Model.BlogList.Count; i++)
         {
             <div class="entries">
+
+                <h2>Title: @Model.BlogList[i].Title</h2>
+                <p> Message: @Model.BlogList[i].Content</p>
+                <h6>Author: @Model.BlogList[i].Sender</h6> <!--placeholder ID-->
+                <h6>Date: @Model.BlogList[i].Date</h6>
+                @foreach (var k in @Model.CategoriesPerBlog[i])
+            {
+                    <h6>#@k</h6>
+                }
+
                 
-                    <h2>@item.Title</h2>
-                    <p>@item.Content</p>
-                    <h6>Author: @item.Sender</h6> <!--placeholder ID-->
-                    <h6>Date: @item.Date</h6>
-                <button name="subject" class="btn-info" onclick="removeBlogEntry1(@item.BId)" @*type="submit"*@ value="HTML">Remove</button>
-                
+
+                <button name="subject" class="btn-info" onclick="removeBlogEntry1(@Model.BlogList[i].BId)" @*type="submit"*@ value="HTML">Remove</button>
+
             </div>
         }
     }
@@ -76,46 +98,33 @@
 @section Scripts
     {
     <script type="text/javascript">
+
+
+
         $(function () {
             var selectedCategories;
             $('#sendPost').click(function () {
-
-
-
-                //send elsewhere
-
-
-                var data = $('#categoryMenu').val(); //Returnerar en Array av valda kategorier.
-                //$dataString = serialize($data);
+                var data = $('#categoryMenu').val(); 
                 var katt;
                 katt = "";
-             
-                
-                for (i = 0;i<data.length;i++){
 
-                    katt=katt + data[i]+' ';
+                for (i = 0; i < data.length; i++) {
 
-
+                    katt = katt + data[i] + ' ';
                 };
-                
-
-
-                //var dataString = $(data).serializeArray();
 
                 var title = $('#title').val();
                 var content = $('#textAreaId').val();
                 var section = '@ViewBag.sectionId';
-                var sender = '1';///Hårdkodat. TODO: Ändra till cookie Id.
-                $.post("/api/WebAPI/sendPost?title=" + title + '&section=' + section + '&sender=' + sender + '&content=' + content + '&categoryIds=' + katt,
+                $.post("/api/WebAPI/sendPost?title=" + title + '&section=' + section + '&content=' + content + '&categoryIds=' + katt,
                     function () {
                         window.location.reload(true);
                     });
             });
         });
     </script>
-    <!--Test för dropdown med checkboxar-->
     <script type="text/javascript">
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#categoryMenu').multiselect();
         });
     </script>

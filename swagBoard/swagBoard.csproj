@@ -150,6 +150,7 @@
     <Compile Include="Controllers\FeedController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MeetingController.cs" />
+    <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\SearchUserController.cs" />
     <Compile Include="Extensions\ExtensionMethods.cs" />
     <Compile Include="Global.asax.cs">
@@ -180,7 +181,12 @@
     <Content Include="bin\Antlr3.Runtime.pdb" />
     <Content Include="bin\Dal.dll" />
     <Content Include="bin\Dal.pdb" />
+    <Content Include="bin\DHTMLX.dll" />
+    <Content Include="bin\DHTMLX.pdb" />
+    <Content Include="bin\DHTMLX.xml" />
     <Content Include="bin\EntityFramework.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.xml" />
     <Content Include="bin\EntityFramework.xml" />
     <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
     <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml" />
@@ -429,6 +435,12 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.blockUI.js" />
+    <Content Include="Scripts\jquery.form.js" />
+    <Content Include="Scripts\jquery.js" />
+    <Content Include="Scripts\jquery.MetaData.js" />
+    <Content Include="Scripts\jquery.MultiFile.js" />
+    <Content Include="Scripts\jquery.MultiFile.pack.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -450,8 +462,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
@@ -463,7 +473,9 @@
     <Content Include="Views\Meeting\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Content\SavedFiles\" />
     <Folder Include="obj\Debug\TempPE\" />
+    <Folder Include="Views\Roles\" />
     <Folder Include="Views\WebAPI\" />
   </ItemGroup>
   <ItemGroup>

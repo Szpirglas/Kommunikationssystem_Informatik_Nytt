@@ -80,5 +80,17 @@ namespace Whiteboard.Extensions
             };
             return x;
         }
+
+        public static File MapToFileEntity(this FileModel fileModel)
+        {
+            var f = new File
+            {
+                BlogEntry = fileModel.BlogEntry,
+                Path = fileModel.Path,
+                Type = fileModel.Type
+
+            };
+            return f;
+        }
     }
 }
