@@ -21,13 +21,16 @@ namespace Whiteboard.API
         Category_BlogRepository cb_rep;
         FileRepository fileRep;
         UserRepository userRep;
+        MeetingRepository meetRep;
 
         string root;
-        MeetingRepository meetRep;
         public WebAPIController()
         {
             blogRep = new BlogEntryRepository();
-           cb_rep=new Category_BlogRepository();
+            cb_rep=new Category_BlogRepository();
+            fileRep = new FileRepository();
+            userRep = new UserRepository();
+            meetRep = new MeetingRepository();
         }
 
 
@@ -136,8 +139,8 @@ namespace Whiteboard.API
             {
                 throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
             }
+            root = System.Web.Hosting.HostingEnvironment.MapPath("~/Content/SavedFiles");
             var provider = new MultipartFormDataStreamProvider(root);
-
             try
             {
                 // Read the form data.
