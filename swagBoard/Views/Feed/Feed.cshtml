@@ -33,7 +33,7 @@
 
         var section = 0;
         foreach (var item in Model.BlogList)
-        {section = item.Section;}
+        { section = item.Section; }
 
         if (section == 1)
         {<h2>Education feed</h2>}
@@ -43,9 +43,10 @@
         {<h2>Social feed</h2>}
         else if (section == 4)
         {<h2>Personal feed</h2>}
-        else{
-                //Do nothing
-            }
+        else
+        {
+            //Do nothing
+        }
 
 
         <div class="row">
@@ -63,7 +64,7 @@
         </div>
         <form name="form1" method="post" enctype="multipart/form-data" action="~/Api/WebAPI/UploadFile">
             <div>
-                        <label for="image1">File</label>
+                <label for="image1">File</label>
                 <input name="image1" type="file" />
             </div>
             <div>
@@ -71,7 +72,7 @@
             </div>
         </form>
 
-        for (int i =0; i < Model.BlogList.Count; i++)
+        for (int i = 0; i < Model.BlogList.Count; i++)
         {
             <div class="entries">
 
@@ -80,13 +81,13 @@
                 <h6>Author: @Model.BlogList[i].Sender</h6> <!--placeholder ID-->
                 <h6>Date: @Model.BlogList[i].Date</h6>
                 @foreach (var k in @Model.CategoriesPerBlog[i])
-            {
+                {
                     <h6>#@k</h6>
                 }
-
-                
-
-                <button name="subject" class="btn-info" onclick="removeBlogEntry1(@Model.BlogList[i].BId)" @*type="submit"*@ value="HTML">Remove</button>
+                @if (Roles.IsUserInRole("EducationAdmin") || Roles.IsUserInRole("ResearchAdmin")|| section == 4)
+                {
+                    <button name="subject" class="btn-info" onclick="removeBlogEntry1(@Model.BlogList[i].BId)" @*type="submit"*@ value="HTML">Remove</button>
+                }
 
             </div>
         }
@@ -104,7 +105,7 @@
         $(function () {
             var selectedCategories;
             $('#sendPost').click(function () {
-                var data = $('#categoryMenu').val(); 
+                var data = $('#categoryMenu').val();
                 var katt;
                 katt = "";
 
