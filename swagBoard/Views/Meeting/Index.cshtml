@@ -3,16 +3,32 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<form action="demo_form.asp" method="get">
+@using (Html.BeginForm())
+{
 
-    @foreach (var item in Model.userList)
+    <form action="demo_form.asp" method="get">
+        <textarea id="textarea">haha xD xD xD xD</textarea>
+        @foreach (var item in Model.userList)
+        {
+            <input type="checkbox" name=@item.Id value=@item.Id> @item.Firstname @item.Lastname <br>
+
+        }
+        <input type="submit" id="sendPost" value="Submit">
+    </form>
+
+
+@section Scripts
     {
-        <input type="checkbox" name="item.Email" value="@item.Email"> @item.Firstname @item.Lastname<br>
-    }
-    <input type="submit" value="Lägg till">
-
-
-
-</form>
+    <script type="text/javascript">
+        $(function () {
+            var selectedCategories;
+            $('#sendPost').click(function () {
+                var text = $('#textarea').val();
+                 
+                
+            }
+    </script>
+}
+}
 
 

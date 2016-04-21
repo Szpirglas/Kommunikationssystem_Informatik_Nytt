@@ -1,4 +1,5 @@
 ﻿using Dal;
+using swagBoard.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,11 @@ namespace swagBoard.Controllers
             }
 
             return View(x);
+        }
+        [HttpPost]
+        public ActionResult index()
+        {
+            return RedirectToAction("Index", "Home");
         }
     }
 }

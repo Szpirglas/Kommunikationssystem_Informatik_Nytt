@@ -21,15 +21,16 @@ namespace Whiteboard.API
         Category_BlogRepository cb_rep;
         FileRepository fileRep;
         UserRepository userRep;
+        MeetingRepository meetRep;
 
         string root;
         public WebAPIController()
         {
             blogRep = new BlogEntryRepository();
-            cb_rep = new Category_BlogRepository();
+            cb_rep=new Category_BlogRepository();
             fileRep = new FileRepository();
-            root = HttpContext.Current.Server.MapPath("~/Content/SavedFiles");
             userRep = new UserRepository();
+            meetRep = new MeetingRepository();
         }
 
 
@@ -54,7 +55,7 @@ namespace Whiteboard.API
                     Content = content,
                     Date = DateTime.Now
                 };
-
+                
                 var id = blogRep.AddBlogEntry(blogToPost.MapToBlogEntity());
 
                 var test = mjau(categoryIds);
@@ -68,8 +69,8 @@ namespace Whiteboard.API
                     var blog_kat = new Category_Blog
                     {
                         CategoryId = test[s],
-                        BlogId = id
-                    };
+                    BlogId = id
+                };
                     cb_rep.Add(blog_kat);
                 };
 
@@ -78,7 +79,7 @@ namespace Whiteboard.API
                     BlogEntry = id,
                     Path = root,
                     Type = null
-            };
+                        };
                 fileRep.Add(fileModel.MapToFileEntity());
 
             }
@@ -138,8 +139,8 @@ namespace Whiteboard.API
             {
                 throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
             }
+            root = System.Web.Hosting.HostingEnvironment.MapPath("~/Content/SavedFiles");
             var provider = new MultipartFormDataStreamProvider(root);
-
             try
             {
                 // Read the form data.
@@ -150,8 +151,8 @@ namespace Whiteboard.API
                 {
                     Trace.WriteLine(file.Headers.ContentDisposition.FileName);
                     Trace.WriteLine("Server file path: " + file.LocalFileName);
-                }
-                
+        }
+
             }
             catch (System.Exception e)
             {
@@ -159,8 +160,45 @@ namespace Whiteboard.API
             }
         }
 
+        [System.Web.Mvc.HttpPost]
+        public void sendMeeting(int sender, string receiver, string text, bool confirmed)
+        {
+            if (!string.IsNullOrWhiteSpace(text))
+            {
+                var invite = new MeetingModel
+                {
+                    Sender = sender,
+                    Confirmed = false,
+                    Text = text
+
+                };
+                var meetingRepository = new MeetingRepository();
+                meetingRepository.sendMeeting(invite.MapToMeeting());
+                //int id = meetRep.sendMeeting(invite.MapToMeeting());
+                //var test = mjau(receiver);
+
+                //int k;
+                //k = test.Length;
+
+                //for (int s = 0; s < test.Length; s++)
+                //{
+
+                //    var blog_kat = new Category_Blog
+                //    {
+                //        CategoryId = test[s],
+                //        BlogId = id
+                //    };
 
 
 
+
+                    //cb_rep.Add(blog_kat);
+
+
+                };
+
+            }
     }
+
+
 }

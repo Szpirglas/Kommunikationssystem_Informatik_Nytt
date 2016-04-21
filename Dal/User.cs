@@ -18,6 +18,8 @@ namespace Dal
         public User()
         {
             this.BlogEntries = new HashSet<BlogEntries>();
+            this.Meeting = new HashSet<Meeting>();
+            this.Meeting1 = new HashSet<Meeting>();
         }
     
         public int Id { get; set; }
@@ -34,5 +36,9 @@ namespace Dal
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BlogEntries> BlogEntries { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Meeting> Meeting { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Meeting> Meeting1 { get; set; }
     }
 }
