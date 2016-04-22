@@ -69,6 +69,7 @@ namespace SimpleScheduler.Controllers
             catch (Exception a)
             {
                 action.Type = DataActionTypes.Error;
+                Console.WriteLine("Error: "+a);
             }
             return (new AjaxSaveResponse(action));
         }

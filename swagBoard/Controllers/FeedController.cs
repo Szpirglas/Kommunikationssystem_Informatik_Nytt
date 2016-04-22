@@ -72,8 +72,6 @@ namespace Whiteboard.Controllers
         //[ActionName("getPersonalFeed")]
         public ActionResult getPersonalFeed(int sectionId)
         {
-
-
             try
             {
 
@@ -107,21 +105,9 @@ namespace Whiteboard.Controllers
 
         public void removeBlogEntry(int bld)
         {
-
-
-
-
             blogEntryRepository.removeOneBlogEntry(bld);
-
-
-
-
-
-
-
+            
         }
-
-
-
+        
     }
 }
