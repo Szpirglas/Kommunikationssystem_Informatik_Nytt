@@ -11,19 +11,12 @@
 
     function removeBlogEntry1(bld1) {
 
-
-
-
         $.get('/Feed/removeBlogEntry/', { bld: bld1 }, function (data) {
             {
-
-
                 location.reload();
-
             }
         });
     }
-
 </script>
 
 <div class="jumbotron">
@@ -31,67 +24,78 @@
 
     @{
 
-        var section = 0;
-        foreach (var item in Model.BlogList)
-        { section = item.Section; }
+        var section = ViewBag.sectionId;
+
+        //foreach (var item in Model.BlogList)
+        //{ section = item.Section; }
 
         if (section == 1)
         {<h2>Education News</h2>
         
 
-        <div style="background-color: white; padding: 5px; border: 5px; border-color: white">
 
-            <img src="http://resources.mynewsdesk.com/image/upload/t_article_v2/fy7t95ey0xjvfk6c7dezw.jpg" alt="">
-            <p>
-                Arga elever tycker Kai ger för svåra tentor :/
+                <div style="background-color: white; padding: 5px; border: 5px; border-color: white">
+        
 
-            </p>
+                    <img src="http://resources.mynewsdesk.com/image/upload/t_article_v2/fy7t95ey0xjvfk6c7dezw.jpg" alt="">
+        
+                    <p>
+                        Arga elever tycker Kai ger för svåra tentor :/
+        
 
-        </div>
-        <h2>Education Feeds</h2>}
+                    </p>
+        
 
-        else if (section == 2)
-        {<h2>Research News</h2>
+                </div>
+        
+                <h2>Education Feeds</h2>}
 
-        <div style="background-color: white; padding: 5px; border: 5px; border-color: white">
+                else if (section == 2)
+                {<h2>Research News</h2>
+        
 
-            <img src="http://ng.se/sites/default/files/image/Maja/18s32-bk-246_jpg_571613l.jpg" alt="">
-            <p>
-                Vi måste sparka nya forskningsadministratören på grund av "krök" på arbetstid
+                <div style="background-color: white; padding: 5px; border: 5px; border-color: white">
+        
+
+                    <img src="http://ng.se/sites/default/files/image/Maja/18s32-bk-246_jpg_571613l.jpg" alt="">
+        
+                    <p>
+                        Vi måste sparka nya forskningsadministratören på grund av "krök" på arbetstid
 
             </p>
 
         </div>
         <h2>Research Feeds</h2>
-
-
-
-
-
-
-
+        
 
         }
-        else if (section == 3)
-        {<h2>Social feed</h2>}
-        else if (section == 4)
-        {<h2>Personal feed</h2>}
-        else {
-            //Do nothing
-        }
+                else if (section == 3)
+                {<h2>Social feed</h2>}
+                else if (section == 4)
+                {<h2>Personal feed</h2>}
 
+                else {
+                    //Do nothing
+                }
+
+
+                if ( section==4 && User.Identity.Name == Model.user.Email)
+                {
+                    //do nothing
+                }
+
+                else
+                {
 
         <div class="row">
             <input type="text" class="titleArea" id="title" placeholder="Title:" /><!--TODO:max 75 tecken. <p>Error Message</p>--><br />
             <textarea class="postArea" id="textAreaId" placeholder="Share something about this section"></textarea><br />
 
-
             <select id="categoryMenu" multiple="multiple">
                 @foreach (var item in Model.CategoryList)
-                {
+            {
                     <option value=@item.Id>@item.Name</option>
                 }
-
             </select>
         </div>
         <form name="form1" method="post" enctype="multipart/form-data" action="~/Api/WebAPI/UploadFile">
@@ -103,6 +107,9 @@
                 <input type="submit" value="Submit" id="sendPost" class="btn btn-info" />
             </div>
         </form>
+        }
+
+
 
         for (int i = 0; i < Model.BlogList.Count; i++)
         {
@@ -113,11 +120,9 @@
                 <h6>Author: @Model.BlogList[i].SenderName</h6> <!--placeholder ID-->
                 <h6>Date: @Model.BlogList[i].Date</h6>
                 @foreach (var k in @Model.CategoriesPerBlog[i])
-                {
+        {
                     <h6>#@k</h6>
                 }
-
-
 
                 <button name="subject" class="btn-info" onclick="removeBlogEntry1(@Model.BlogList[i].BId)" @*type="submit"*@ value="HTML">Remove</button>
 

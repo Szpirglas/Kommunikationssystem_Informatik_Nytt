@@ -8,7 +8,7 @@ namespace Whiteboard.Models
 {
     public class UserModel
     {
-        public string Id { get; private set; }
+        public int Id { get; set; }
         public string Email { get; set; }
         [Display(Name = "Lösenord")]
         [DataType(DataType.Password)]

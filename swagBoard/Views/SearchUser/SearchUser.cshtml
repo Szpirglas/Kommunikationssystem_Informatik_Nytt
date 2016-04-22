@@ -1,11 +1,8 @@
 ﻿@model Whiteboard.Models.UserModel
 
+
 @foreach (var item in Model.userList)
 {
-   
-
-        <p><a href="https://www.youtube.com/watch?v=4F4qzPbcFiA">@item.Lastname  @item.Firstname</a></p>
-       
-       
-
+    @Html.ActionLink(item.Firstname + " " + item.Lastname, "getSomeOneElsesFeed", "Feed", new RouteValueDictionary(new { sectionId = 4, userID = @item.Id }), null)
+     <br />
 }

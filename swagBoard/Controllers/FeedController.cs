@@ -25,14 +25,6 @@ namespace Whiteboard.Controllers
 
 
 
-
-        //public ActionResult Feed()
-        //{
-        //    return View();
-
-        //}
-
-
             [Authorize]
         public ActionResult Feed(int sectionId = 2)
         {
@@ -91,6 +83,42 @@ namespace Whiteboard.Controllers
                 {
                     blogPosts.BlogList.Add(item.MaptoBlogEntryModel());
 
+                    blogPosts.CategoriesPerBlog.Add(categoryRepository.GetCategoriesByBlogId(item.BId));
+                }
+
+                foreach (var item in categoryList)
+                {
+                    blogPosts.CategoryList.Add(item.MaptoCategoryModel());
+                }
+
+                return View("Feed", blogPosts);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+
+        [Authorize]
+        public ActionResult getSomeOneElsesFeed(int sectionId, int userID)
+        {
+            try
+            {
+               
+
+                var user = userRep.getYaUserFromYaId(userID);
+                var currentUser = userRep.getYaUserFromYaMail(User.Identity.Name);
+
+                var blogPosts = new BlogEntryModel();
+                blogPosts.user.Email = currentUser.Email;
+                var posts = blogEntryRepository.GetYaOwnPostsMan(sectionId, user.Id);
+                var categoryList = categoryRepository.GetCategories(sectionId);
+                ViewBag.sectionId = sectionId;
+
+                foreach (var item in posts)
+                {
+                    blogPosts.BlogList.Add(item.MaptoBlogEntryModel());
                     blogPosts.CategoriesPerBlog.Add(categoryRepository.GetCategoriesByBlogId(item.BId));
                 }
 
