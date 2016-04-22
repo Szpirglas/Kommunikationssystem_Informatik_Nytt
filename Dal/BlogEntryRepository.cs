@@ -4,6 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+
+
+
+
 namespace Dal
 {
     public class BlogEntryRepository : GenericRepository<BlogEntries>
@@ -73,6 +78,16 @@ namespace Dal
 
                 using (var db = new Entities())
                 {
+
+
+                    var cat_blog = new List<Category_Blog>();
+
+                    cat_blog = db.Category_Blog.Where(x => x.BlogId == bld).ToList();
+                    foreach(var cat in cat_blog) {
+                        db.Entry(cat).State = System.Data.Entity.EntityState.Deleted;
+
+                    }
+
 
                     BlogEntries BlogEntryToDelete = db.BlogEntries.Where(x => x.BId == bld).FirstOrDefault<BlogEntries>();
 

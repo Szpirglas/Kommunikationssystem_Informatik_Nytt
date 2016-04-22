@@ -13,6 +13,8 @@ namespace SimpleScheduler.Controllers
 {
     public class CalendarController : Controller
     {
+
+        [Authorize]
         public ActionResult Index()
         {
             var scheduler = new DHXScheduler(this);
@@ -69,6 +71,7 @@ namespace SimpleScheduler.Controllers
             catch (Exception a)
             {
                 action.Type = DataActionTypes.Error;
+                Console.WriteLine("Error: "+a);
             }
             return (new AjaxSaveResponse(action));
         }

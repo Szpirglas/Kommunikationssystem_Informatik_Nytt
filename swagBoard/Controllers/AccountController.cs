@@ -59,8 +59,23 @@ namespace Whiteboard.Controllers
 
             if (userRepository.checkUserLogin(lowerEmail, model.Password))
             {
+                var user = userRepository.getYaUserFromYaMail(lowerEmail);
+
+                var newModel = new UserModel
+                {
+                    Doctorand = user.Doctorand,
+                    EducationAdmin = user.EducationAdmin,
+                    Email = user.Email,
+                    Firstname = user.Firstname,
+                    Lastname = user.Lastname,
+                    Lecturer = user.Lecturer,
+                    Password = user.Password,
+                    PhoneNumber = user.Phonenumber,
+                    ResearchAdmin = user.ResearchAdmin,
+                    Researcher = user.Researcher
+                };
+                addRoles.addUserToRole(newModel);
                 FormsAuthentication.SetAuthCookie(model.Email, false);
-                addRoles.addUserToRole(model);
 
                 return RedirectToAction("Index", "Home");
             }

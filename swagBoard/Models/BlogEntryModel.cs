@@ -13,6 +13,7 @@ namespace Whiteboard.Models
         public int Sender { get; set; }
         public DateTime Date { get; set; }
         public int Section { get; set; }
+        public string SenderName { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FileModel> Files { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
