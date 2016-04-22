@@ -13,6 +13,8 @@ namespace SimpleScheduler.Controllers
 {
     public class CalendarController : Controller
     {
+
+        [Authorize]
         public ActionResult Index()
         {
             var scheduler = new DHXScheduler(this);
