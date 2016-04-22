@@ -2,10 +2,33 @@
 
 @foreach (var item in Model.userList)
 {
-   
+    <h3>@item.Lastname  @item.Firstname</h3>
 
-        <p><a href="https://www.youtube.com/watch?v=4F4qzPbcFiA">@item.Lastname  @item.Firstname</a></p>
-       
-       
+    if (Roles.IsUserInRole("EducationAdmin"))
+    {
+        if (item.Lecturer == true)
+        {
+            <p>Lecturer</p>
+        }
+        if (item.Researcher == true)
+        {
+            <p>Researcher</p>
+        }
+        if (item.Doctorand == true)
+        {
+            <p>Doctorand</p>
+        }
+        if (item.EducationAdmin == true)
+        {
+            <p>Education admin</p>
+        }
+        if (item.ResearchAdmin == true)
+        {
+            <p>Researcher admin</p>
+        }
 
+        <p>@Html.ActionLink("Update user", "updateUser", "Account", item, null)</p>
+
+
+    }
 }

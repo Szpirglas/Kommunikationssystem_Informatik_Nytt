@@ -63,6 +63,7 @@ namespace Whiteboard.Controllers
 
                 var newModel = new UserModel
                 {
+                    Id = user.Id,
                     Doctorand = user.Doctorand,
                     EducationAdmin = user.EducationAdmin,
                     Email = user.Email,
@@ -87,6 +88,41 @@ namespace Whiteboard.Controllers
             FormsAuthentication.SignOut();
             return  RedirectToAction("index", "Home");
 
+        }
+
+        public ActionResult saveUser(UserModel user)
+        {
+            var userRep = new UserRepository();
+
+            userRep.updateUser(user.Id, user.Email, user.Firstname, user.Lastname, user.Password, user.PhoneNumber, user.Lecturer, user.ResearchAdmin,user.Researcher, user.Doctorand,user.EducationAdmin);
+            return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult updateUser(UserModel user)
+        {
+            try
+            {
+                var newModel = new UserModel
+                {
+                    Id = user.Id,
+                    Doctorand = user.Doctorand,
+                    EducationAdmin = user.EducationAdmin,
+                    Email = user.Email,
+                    Firstname = user.Firstname,
+                    Lastname = user.Lastname,
+                    Lecturer = user.Lecturer,
+                    Password = user.Password,
+                    PhoneNumber = user.PhoneNumber,
+                    ResearchAdmin = user.ResearchAdmin,
+                    Researcher = user.Researcher
+                };
+                return View(newModel);
+            }
+
+            catch
+            {
+                return null;
+            }
         }
 
     }
