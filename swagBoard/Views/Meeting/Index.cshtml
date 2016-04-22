@@ -23,23 +23,24 @@
        
 
         $(function () {
-            var text = $('#textarea').val();
-            var data = $('#userMenu').val();
-            var users;
-            users = "";
+            $('#sendPost').click(function () {
+                var text = $('#textarea').val();
+                var data = $('#userMenu').val();
+                var users;
+                users = "";
 
-            for (i = 0; i < data.length; i++) {
+                for (i = 0; i < data.length; i++) {
 
-                users = users + data[i] + ' ';
-            };
-            $.ajax({
-                type: "POST",
-                data: JSON.stringify(text),
-                url: "api/WebAPI/sendMeeting",
-                contentType: "application/json"
+                    users = users + data[i] + ' ';
+                };
+                $.ajax({
+                    type: "POST",
+                    data: JSON.stringify(text),
+                    url: "api/WebAPI/sendMeeting",
+                    contentType: "application/json"
+                });
             });
-        });
-            
+        })    
     </script>
 }
 }
