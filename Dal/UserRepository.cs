@@ -64,6 +64,25 @@ namespace Dal
             }
         }
 
+        public User getYaUserFromYaId(int id)
+        {
+            try
+            {
+                using (var db = new Entities())
+                {
+                    return db.User.FirstOrDefault(x => x.Id == id);
+                }
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine(e);
+                return null;
+
+
+            }
+        }
+
         public void updateUser(int id, string Email, string Firstname, string Lastname, string Password, string PhoneNumber, bool Lecturer, bool ResearchAdmin, bool Researcher, bool Doctorand, bool EducationAdmin)
         {
             try
