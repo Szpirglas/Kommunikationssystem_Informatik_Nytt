@@ -82,6 +82,7 @@ namespace Whiteboard.Extensions
 
             var x = new UserModel
             {
+                Id = userModel.Id,
                 Email = userModel.Email,
                 Password = userModel.Password,
                 Firstname = userModel.Firstname,
