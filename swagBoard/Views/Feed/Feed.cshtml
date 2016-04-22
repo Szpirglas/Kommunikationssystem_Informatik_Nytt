@@ -36,15 +36,47 @@
         { section = item.Section; }
 
         if (section == 1)
-        {<h2>Education feed</h2>}
+        {<h2>Education News</h2>
+        
+
+        <div style="background-color: white; padding: 5px; border: 5px; border-color: white">
+
+            <img src="http://resources.mynewsdesk.com/image/upload/t_article_v2/fy7t95ey0xjvfk6c7dezw.jpg" alt="">
+            <p>
+                Arga elever tycker Kai ger för svåra tentor :/
+
+            </p>
+
+        </div>
+        <h2>Education Feeds</h2>}
+
         else if (section == 2)
-        {<h2>Research feed</h2>}
+        {<h2>Research News</h2>
+
+        <div style="background-color: white; padding: 5px; border: 5px; border-color: white">
+
+            <img src="http://ng.se/sites/default/files/image/Maja/18s32-bk-246_jpg_571613l.jpg" alt="">
+            <p>
+                Vi måste sparka nya forskningsadministratören på grund av "krök" på arbetstid
+
+            </p>
+
+        </div>
+        <h2>Research Feeds</h2>
+
+
+
+
+
+
+
+
+        }
         else if (section == 3)
         {<h2>Social feed</h2>}
         else if (section == 4)
         {<h2>Personal feed</h2>}
-        else
-        {
+        else {
             //Do nothing
         }
 
@@ -78,16 +110,16 @@
 
                 <h2>Title: @Model.BlogList[i].Title</h2>
                 <p> Message: @Model.BlogList[i].Content</p>
-                <h6>Author: @Model.BlogList[i].Sender</h6> <!--placeholder ID-->
+                <h6>Author: @Model.BlogList[i].SenderName</h6> <!--placeholder ID-->
                 <h6>Date: @Model.BlogList[i].Date</h6>
                 @foreach (var k in @Model.CategoriesPerBlog[i])
                 {
                     <h6>#@k</h6>
                 }
-                @if (Roles.IsUserInRole("EducationAdmin") || Roles.IsUserInRole("ResearchAdmin")|| section == 4)
-                {
-                    <button name="subject" class="btn-info" onclick="removeBlogEntry1(@Model.BlogList[i].BId)" @*type="submit"*@ value="HTML">Remove</button>
-                }
+
+
+
+                <button name="subject" class="btn-info" onclick="removeBlogEntry1(@Model.BlogList[i].BId)" @*type="submit"*@ value="HTML">Remove</button>
 
             </div>
         }

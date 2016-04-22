@@ -25,10 +25,6 @@ namespace swagBoard.Controllers
 
             return View(x);
         }
-        [HttpPost]
-        public ActionResult index()
-        {
-            return RedirectToAction("Index", "Home");
-        }
+        
     }
 }

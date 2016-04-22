@@ -33,7 +33,7 @@ namespace Whiteboard.Controllers
         //}
 
 
-
+            [Authorize]
         public ActionResult Feed(int sectionId = 2)
         {
             try
@@ -48,7 +48,11 @@ namespace Whiteboard.Controllers
 
                 foreach (var item in posts)
                 {
-                    blogPosts.BlogList.Add(item.MaptoBlogEntryModel());
+
+                 var  item2 = item.MaptoBlogEntryModel();
+
+                    item2.SenderName = userRep.getYaUserFromYaId(item.Sender).Firstname + ' ' + userRep.getYaUserFromYaId(item.Sender).Lastname;
+                    blogPosts.BlogList.Add(item2);
 
                     blogPosts.CategoriesPerBlog.Add(categoryRepository.GetCategoriesByBlogId(item.BId));
                 }
@@ -70,10 +74,9 @@ namespace Whiteboard.Controllers
 
         //[HttpPost]
         //[ActionName("getPersonalFeed")]
+        [Authorize]
         public ActionResult getPersonalFeed(int sectionId)
         {
-
-
             try
             {
 
@@ -107,21 +110,9 @@ namespace Whiteboard.Controllers
 
         public void removeBlogEntry(int bld)
         {
-
-
-
-
             blogEntryRepository.removeOneBlogEntry(bld);
-
-
-
-
-
-
-
+            
         }
-
-
-
+        
     }
 }

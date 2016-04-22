@@ -84,6 +84,16 @@
           <Property Name="Sender" Type="int" />
           <Property Name="text" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="Notificationer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Reciever" Type="int" />
+          <Property Name="Participate" Type="bit" />
+          <Property Name="Text" Type="nvarchar(max)" />
+          <Property Name="MeetingID" Type="int" />
+        </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="Id" />
@@ -99,6 +109,14 @@
           <Property Name="Researcher" Type="bit" Nullable="false" />
           <Property Name="Doctorand" Type="bit" Nullable="false" />
           <Property Name="Lecturer" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User_Private_Meeting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="User" Type="int" />
+          <Property Name="Meeting" Type="int" />
         </EntityType>
         <Association Name="FK_BlogEntries_To_Categories">
           <End Role="BlogEntries" Type="Self.BlogEntries" Multiplicity="1" />
@@ -184,6 +202,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Notification_To_Meeting">
+          <End Role="Meeting" Type="Self.Meeting" Multiplicity="0..1" />
+          <End Role="Notificationer" Type="Self.Notificationer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Meeting">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Notificationer">
+              <PropertyRef Name="MeetingID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notification_To_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Notificationer" Type="Self.Notificationer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Notificationer">
+              <PropertyRef Name="Reciever" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_User_To_BlogEntries">
           <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="BlogEntries" Type="Self.BlogEntries" Multiplicity="*" />
@@ -196,6 +238,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="UserPrivateMeeting to Events">
+          <End Role="Events" Type="Self.Events" Multiplicity="0..1" />
+          <End Role="User_Private_Meeting" Type="Self.User_Private_Meeting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Events">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="User_Private_Meeting">
+              <PropertyRef Name="Meeting" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserPrivateMeeting to User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="User_Private_Meeting" Type="Self.User_Private_Meeting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User_Private_Meeting">
+              <PropertyRef Name="User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="ModelStoreContainer">
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BlogEntries" EntityType="Self.BlogEntries" Schema="dbo" store:Type="Tables" />
@@ -205,7 +271,9 @@
           <EntitySet Name="Feed_Section" EntityType="Self.Feed_Section" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="File" EntityType="Self.File" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Meeting" EntityType="Self.Meeting" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Notificationer" EntityType="Self.Notificationer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User_Private_Meeting" EntityType="Self.User_Private_Meeting" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_BlogEntries_To_Categories" Association="Self.FK_BlogEntries_To_Categories">
             <End Role="BlogEntries" EntitySet="BlogEntries" />
             <End Role="Category_Blog" EntitySet="Category_Blog" />
@@ -234,9 +302,25 @@
             <End Role="User" EntitySet="User" />
             <End Role="Meeting" EntitySet="Meeting" />
           </AssociationSet>
+          <AssociationSet Name="FK_Notification_To_Meeting" Association="Self.FK_Notification_To_Meeting">
+            <End Role="Meeting" EntitySet="Meeting" />
+            <End Role="Notificationer" EntitySet="Notificationer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notification_To_User" Association="Self.FK_Notification_To_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Notificationer" EntitySet="Notificationer" />
+          </AssociationSet>
           <AssociationSet Name="FK_User_To_BlogEntries" Association="Self.FK_User_To_BlogEntries">
             <End Role="User" EntitySet="User" />
             <End Role="BlogEntries" EntitySet="BlogEntries" />
+          </AssociationSet>
+          <AssociationSet Name="UserPrivateMeeting to Events" Association="Self.UserPrivateMeeting to Events">
+            <End Role="Events" EntitySet="Events" />
+            <End Role="User_Private_Meeting" EntitySet="User_Private_Meeting" />
+          </AssociationSet>
+          <AssociationSet Name="UserPrivateMeeting to User" Association="Self.UserPrivateMeeting to User">
+            <End Role="User" EntitySet="User" />
+            <End Role="User_Private_Meeting" EntitySet="User_Private_Meeting" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -332,6 +416,8 @@
           <NavigationProperty Name="BlogEntries" Relationship="Self.FK_User_To_BlogEntries" FromRole="User" ToRole="BlogEntries" />
           <NavigationProperty Name="Meeting" Relationship="Model.FK_Meeting_To_User" FromRole="User" ToRole="Meeting" />
           <NavigationProperty Name="Meeting1" Relationship="Model.FK_Meeting_To_Users" FromRole="User" ToRole="Meeting" />
+          <NavigationProperty Name="Notificationer" Relationship="Model.FK_Notification_To_User" FromRole="User" ToRole="Notificationer" />
+          <NavigationProperty Name="User_Private_Meeting" Relationship="Model.UserPrivateMeeting_to_User" FromRole="User" ToRole="User_Private_Meeting" />
         </EntityType>
         <Association Name="FK_BlogEntries_To_Categories">
           <End Role="BlogEntries" Type="Self.BlogEntries" Multiplicity="1" />
@@ -447,6 +533,24 @@
             <End Role="User" EntitySet="User" />
             <End Role="Meeting" EntitySet="Meeting" />
           </AssociationSet>
+          <EntitySet Name="Notificationer" EntityType="Model.Notificationer" />
+          <AssociationSet Name="FK_Notification_To_Meeting" Association="Model.FK_Notification_To_Meeting">
+            <End Role="Meeting" EntitySet="Meeting" />
+            <End Role="Notificationer" EntitySet="Notificationer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notification_To_User" Association="Model.FK_Notification_To_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Notificationer" EntitySet="Notificationer" />
+          </AssociationSet>
+          <EntitySet Name="User_Private_Meeting" EntityType="Model.User_Private_Meeting" />
+          <AssociationSet Name="UserPrivateMeeting_to_Events" Association="Model.UserPrivateMeeting_to_Events">
+            <End Role="Events" EntitySet="Events" />
+            <End Role="User_Private_Meeting" EntitySet="User_Private_Meeting" />
+          </AssociationSet>
+          <AssociationSet Name="UserPrivateMeeting_to_User" Association="Model.UserPrivateMeeting_to_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="User_Private_Meeting" EntitySet="User_Private_Meeting" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Events">
           <Key>
@@ -456,6 +560,7 @@
           <Property Name="text" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="start_date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="end_date" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="User_Private_Meeting" Relationship="Model.UserPrivateMeeting_to_Events" FromRole="Events" ToRole="User_Private_Meeting" />
         </EntityType>
         <EntityType Name="Meeting">
           <Key>
@@ -468,6 +573,7 @@
           <NavigationProperty Name="User" Relationship="Model.FK_Meeting_To_User" FromRole="Meeting" ToRole="User" />
           <NavigationProperty Name="User1" Relationship="Model.FK_Meeting_To_Users" FromRole="Meeting" ToRole="User" />
           <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Notificationer" Relationship="Model.FK_Notification_To_Meeting" FromRole="Meeting" ToRole="Notificationer" />
         </EntityType>
         <Association Name="FK_Meeting_To_User">
           <End Type="Model.User" Role="User" Multiplicity="0..1" />
@@ -490,6 +596,76 @@
             </Principal>
             <Dependent Role="Meeting">
               <PropertyRef Name="Sender" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Notificationer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Reciever" Type="Int32" />
+          <Property Name="Participate" Type="Boolean" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MeetingID" Type="Int32" />
+          <NavigationProperty Name="Meeting" Relationship="Model.FK_Notification_To_Meeting" FromRole="Notificationer" ToRole="Meeting" />
+          <NavigationProperty Name="User" Relationship="Model.FK_Notification_To_User" FromRole="Notificationer" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_Notification_To_Meeting">
+          <End Type="Model.Meeting" Role="Meeting" Multiplicity="0..1" />
+          <End Type="Model.Notificationer" Role="Notificationer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Meeting">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Notificationer">
+              <PropertyRef Name="MeetingID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notification_To_User">
+          <End Type="Model.User" Role="User" Multiplicity="0..1" />
+          <End Type="Model.Notificationer" Role="Notificationer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Notificationer">
+              <PropertyRef Name="Reciever" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="User_Private_Meeting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="User" Type="Int32" />
+          <Property Name="Meeting" Type="Int32" />
+          <NavigationProperty Name="Events" Relationship="Model.UserPrivateMeeting_to_Events" FromRole="User_Private_Meeting" ToRole="Events" />
+          <NavigationProperty Name="User1" Relationship="Model.UserPrivateMeeting_to_User" FromRole="User_Private_Meeting" ToRole="User" />
+        </EntityType>
+        <Association Name="UserPrivateMeeting_to_Events">
+          <End Type="Model.Events" Role="Events" Multiplicity="0..1" />
+          <End Type="Model.User_Private_Meeting" Role="User_Private_Meeting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Events">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="User_Private_Meeting">
+              <PropertyRef Name="Meeting" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserPrivateMeeting_to_User">
+          <End Type="Model.User" Role="User" Multiplicity="0..1" />
+          <End Type="Model.User_Private_Meeting" Role="User_Private_Meeting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User_Private_Meeting">
+              <PropertyRef Name="User" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -599,6 +775,26 @@
                 <ScalarProperty Name="Sender" ColumnName="Sender" />
                 <ScalarProperty Name="Confirmed" ColumnName="Confirmed" />
                 <ScalarProperty Name="Reciever" ColumnName="Reciever" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notificationer">
+            <EntityTypeMapping TypeName="Model.Notificationer">
+              <MappingFragment StoreEntitySet="Notificationer">
+                <ScalarProperty Name="MeetingID" ColumnName="MeetingID" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Participate" ColumnName="Participate" />
+                <ScalarProperty Name="Reciever" ColumnName="Reciever" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User_Private_Meeting">
+            <EntityTypeMapping TypeName="Model.User_Private_Meeting">
+              <MappingFragment StoreEntitySet="User_Private_Meeting">
+                <ScalarProperty Name="Meeting" ColumnName="Meeting" />
+                <ScalarProperty Name="User" ColumnName="User" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

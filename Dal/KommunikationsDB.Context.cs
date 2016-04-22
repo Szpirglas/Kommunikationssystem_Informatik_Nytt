@@ -34,5 +34,7 @@ namespace Dal
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<Events> Events { get; set; }
         public virtual DbSet<Meeting> Meeting { get; set; }
+        public virtual DbSet<Notificationer> Notificationer { get; set; }
+        public virtual DbSet<User_Private_Meeting> User_Private_Meeting { get; set; }
     }
 }

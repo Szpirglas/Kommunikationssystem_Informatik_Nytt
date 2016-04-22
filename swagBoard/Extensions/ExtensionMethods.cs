@@ -5,10 +5,21 @@ using System.Web;
 using Dal;
 using Whiteboard.Models;
 
+
 namespace Whiteboard.Extensions
 {
     public static class ExtensionMethods
+
+
+
+       
     {
+       
+
+
+
+
+
         public static BlogEntries MapToBlogEntity(this BlogEntryModel blogPost)
         {
 
@@ -39,14 +50,19 @@ namespace Whiteboard.Extensions
 
         public static BlogEntryModel MaptoBlogEntryModel(this BlogEntries blogEntryModel)
         {
+
+
+
+
             var blogEntryMapped = new BlogEntryModel
             {
-                BId=blogEntryModel.BId,
+                BId = blogEntryModel.BId,
                 Title = blogEntryModel.Title,
                 Content = blogEntryModel.Content,
                 Date = blogEntryModel.Date,
                 Sender = blogEntryModel.Sender,
-                Section = blogEntryModel.Section
+                Section = blogEntryModel.Section,
+                
 
             };
             return blogEntryMapped;
