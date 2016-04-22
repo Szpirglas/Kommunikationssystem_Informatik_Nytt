@@ -10,7 +10,7 @@
         <textarea id="textarea">haha xD xD xD xD</textarea>
         @foreach (var item in Model.userList)
         {
-            <input type="checkbox" name=@item.Id value=@item.Id> @item.Firstname @item.Lastname <br>
+            <input type="checkbox" id="userMenu" name=@item.Id value=@item.Id> @item.Firstname @item.Lastname <br>
 
         }
         <input type="submit" id="sendPost" value="Submit">
@@ -20,13 +20,26 @@
 @section Scripts
     {
     <script type="text/javascript">
+       
+
         $(function () {
-            var selectedCategories;
-            $('#sendPost').click(function () {
-                var text = $('#textarea').val();
-                 
-                
-            }
+            var text = $('#textarea').val();
+            var data = $('#userMenu').val();
+            var users;
+            users = "";
+
+            for (i = 0; i < data.length; i++) {
+
+                users = users + data[i] + ' ';
+            };
+            $.ajax({
+                type: "POST",
+                data: JSON.stringify(text),
+                url: "api/WebAPI/sendMeeting",
+                contentType: "application/json"
+            });
+        });
+            
     </script>
 }
 }

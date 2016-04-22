@@ -161,13 +161,13 @@ namespace Whiteboard.API
         }
 
         [System.Web.Mvc.HttpPost]
-        public void sendMeeting(int sender, string receiver, string text, bool confirmed)
+        public void sendMeeting(string text)
         {
             if (!string.IsNullOrWhiteSpace(text))
             {
                 var invite = new MeetingModel
                 {
-                    Sender = sender,
+                    //Sender = sender,
                     Confirmed = false,
                     Text = text
 
