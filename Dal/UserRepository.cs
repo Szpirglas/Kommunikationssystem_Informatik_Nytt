@@ -63,6 +63,26 @@ namespace Dal
             }
         }
 
+
+        public User getYaUserFromYaId(int id)
+        {
+            try
+            {
+                using (var db = new Entities())
+                {
+                    return db.User.FirstOrDefault(x => x.Id == id);
+                }
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine(e);
+                return null;
+
+
+            }
+        }
+
     }
 
 }
