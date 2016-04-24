@@ -14,6 +14,12 @@ namespace Dal
     
     public partial class Meeting
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Meeting()
+        {
+            this.Notificationer = new HashSet<Notificationer>();
+        }
+    
         public int Id { get; set; }
         public Nullable<int> Reciever { get; set; }
         public Nullable<bool> Confirmed { get; set; }
@@ -22,5 +28,7 @@ namespace Dal
     
         public virtual User User { get; set; }
         public virtual User User1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Notificationer> Notificationer { get; set; }
     }
 }

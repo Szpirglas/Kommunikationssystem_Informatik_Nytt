@@ -14,9 +14,18 @@ namespace Dal
     
     public partial class Events
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Events()
+        {
+            this.User_Private_Meeting = new HashSet<User_Private_Meeting>();
+        }
+    
         public int id { get; set; }
         public string text { get; set; }
         public System.DateTime start_date { get; set; }
         public System.DateTime end_date { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<User_Private_Meeting> User_Private_Meeting { get; set; }
     }
 }

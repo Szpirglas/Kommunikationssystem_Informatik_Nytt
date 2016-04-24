@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -63,7 +64,6 @@ namespace Dal
             }
         }
 
-
         public User getYaUserFromYaId(int id)
         {
             try
@@ -80,6 +80,32 @@ namespace Dal
                 return null;
 
 
+            }
+        }
+
+        public void updateUser(int id, string Email, string Firstname, string Lastname, string Password, string PhoneNumber, bool Lecturer, bool ResearchAdmin, bool Researcher, bool Doctorand, bool EducationAdmin)
+        {
+            try
+            {
+                using (var context = new Entities())
+                {
+                    User e = context.User.FirstOrDefault(x => x.Id == id);
+                    e.Email = Email;
+                    e.Firstname = Firstname;
+                    e.Lastname = Lastname;
+                    e.Password = Password;
+                    e.Phonenumber = PhoneNumber;
+                    e.Lecturer = Lecturer;
+                    e.Doctorand = Doctorand;
+                    e.ResearchAdmin = ResearchAdmin;
+                    e.Researcher = Researcher;
+                    e.EducationAdmin = EducationAdmin;
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
             }
         }
 

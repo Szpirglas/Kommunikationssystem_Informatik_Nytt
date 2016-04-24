@@ -1,8 +1,34 @@
 ﻿@model Whiteboard.Models.UserModel
 
-
 @foreach (var item in Model.userList)
 {
-    @Html.ActionLink(item.Firstname + " " + item.Lastname, "getSomeOneElsesFeed", "Feed", new RouteValueDictionary(new { sectionId = 4, userID = @item.Id }), null)
-     <br />
+    <h3>@item.Lastname  @item.Firstname</h3>
+
+    if (Roles.IsUserInRole("EducationAdmin"))
+    {
+        if (item.Lecturer == true)
+        {
+            <p>Lecturer</p>
+        }
+        if (item.Researcher == true)
+        {
+            <p>Researcher</p>
+        }
+        if (item.Doctorand == true)
+        {
+            <p>Doctorand</p>
+        }
+        if (item.EducationAdmin == true)
+        {
+            <p>Education admin</p>
+        }
+        if (item.ResearchAdmin == true)
+        {
+            <p>Researcher admin</p>
+        }
+
+        <p>@Html.ActionLink("Update user", "updateUser", "Account", item, null)</p>
+
+
+    }
 }

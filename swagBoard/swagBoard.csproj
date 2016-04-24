@@ -471,6 +471,8 @@
     <Content Include="Views\Calendar\Index.cshtml" />
     <Content Include="Views\SearchUser\SearchUser.cshtml" />
     <Content Include="Views\Meeting\Index.cshtml" />
+    <Content Include="Views\updateUser.cshtml" />
+    <Content Include="Views\Account\updateUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\SavedFiles\" />

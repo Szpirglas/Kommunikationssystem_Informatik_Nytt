@@ -52,7 +52,7 @@ namespace SimpleScheduler.Controllers
                     {
                         case DataActionTypes.Insert: // define here your Insert logic
                             data.Events.InsertOnSubmit(changedEvent);
-
+                            
                             break;
                         case DataActionTypes.Delete: // define here your Delete logic
 
